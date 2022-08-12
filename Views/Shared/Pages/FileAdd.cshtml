@@ -1,0 +1,48 @@
+@model string
+
+@await Html.PartialAsync("_title","Account settings")
+<script src="~/js/FileBox.js"></script>
+<div class="text-center">
+    
+    
+    <div id="drag-area" class="drag-area">
+        <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <div class="fileTextDiv padding-root rounded-root">
+            <h3 id="FileLabel">Drag & Drop to Upload File</h3>
+            <h3>OR</h3>
+            <button class="btn btnFileBox" onclick="input.click()" id="buttonFile">Browse File</button>
+        </div>
+        
+        
+        <input id="inputFile" type="file" hidden>
+    </div>
+    
+    <div>
+        <div class="StepsPointsContainer hidden" id="StepsPoints">
+            <div class="progress">
+                <div class="percent"></div>
+            </div>
+            
+            <div class="steps">
+                <button class="stepButton" id="ButtonStepCreate" onclick="FileCreate(FileInput)">
+                    <div class="step"></div>
+                    <a id="CrateText"></a>
+                    <br/>
+                </button>
+                <button class="stepButton" id="ButtonUploadingFile" onclick="FileUpload(FileInput)">
+                    <div class="step"></div>
+                    <a id="ProgressText"></a>
+                    <br/>
+                </button>
+                
+                <button class="stepButton" id="OpenButtonPage" onclick="PageAjaxTransition('FileViewer',this.address,true);">
+                    <div class="step"></div>
+                    <a id="PenPageText"></a>
+                    <br/>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    
+</div>

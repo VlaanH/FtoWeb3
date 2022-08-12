@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+.fileTextDiv
+{
+    width: 31%;
+    background-color: #2e3442;
+}
+.drag-area{
+    margin-top: 20px;
+    border: 2px dashed #fff;
+    height: 500px;
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.drag-area.active{
+    border: 2px solid #fff;
+}
+.drag-area .icon{
+    font-size: 100px;
+    color: #fff;
+}
+.drag-area header{
+    font-size: 30px;
+    font-weight: 500;
+    color: #fff;
+}
+.drag-area span{
+    font-size: 25px;
+    font-weight: 500;
+    color: #fff;
+    margin: 10px 0 15px 0;
+}
+.btnFileBox{
+    padding: 10px 25px;
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #5256ad;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btnFileBoxMini
+{
+    padding: 2px 20px;
+}
+
+.drag-area img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+
+.StepsPointsContainer 
+{
+    margin-top: 10px;
+    position: relative;
+}
+
+.steps 
+{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+.step 
+{
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 2px solid #ACACA6;
+    border-radius: 50%;
+    transition: background 1s;
+}
+.step.selected 
+{
+    border: 2px solid #2e3442;
+}
+.step.completed 
+{   
+    z-index: 1;
+    border: 2px solid #9aa3b7;
+    background: #2e3442;
+}
+.progress 
+{
+    position: absolute;
+    margin-top: 16px;
+    margin-inline: 2%;
+    width: 97%;
+    height: 15%;
+    border-bottom: 4px;
+    z-index: -1;
+}
+.percent 
+{
+    position: absolute;
+    height: 72%;
+    border-bottom: 4px solid #2e3442;
+    z-index: 1;
+    transition: width 1s;
+}
+.stepButton
+{
+    background: transparent;
+    border: 0px;
+    text-align: -webkit-center;
+    color: #fff;
+}
+.stepButton:focus
+{
+    outline: none;
+}

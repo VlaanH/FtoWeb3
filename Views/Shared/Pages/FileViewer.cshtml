@@ -1,0 +1,20 @@
+@model string
+
+@await Html.PartialAsync("_title","Account settings")
+<script src="~/js/FileViewer.js"></script>
+<script>
+
+
+(async() => 
+{
+  await SetFileToView("@Model") 
+
+})();
+</script>
+<div class="text-center">
+
+<textarea class="textarea_description" id="ResultTextarea"></textarea>
+
+<img id="ResultImage"/>
+
+</div>
