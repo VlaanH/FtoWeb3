@@ -50,24 +50,6 @@ function hidden(id,isHidden)
     
 }
 
-
-
-function IsAuthorizationWeb3()
-{
-    try 
-    {
-        if (window.userAddress.length!=null)
-        {
-            return true;
-        }   
-    }
-    catch (e) 
-    {
-        return false;
-    }
-    
-   
-}
 async function SetNetName() 
 {
     var id = await web3.eth.net.getId();
