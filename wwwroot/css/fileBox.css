@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 .fileTextDiv
 {
-    width: 31%;
+  /*  width: 31%;*/
     background-color: #2e3442;
+}
+.font-size-root
+{
+    font-size: 24px;
 }
 .drag-area{
     margin-top: 20px;
@@ -46,13 +50,6 @@
 .btnFileBoxMini
 {
     padding: 2px 20px;
-}
-
-.drag-area img{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 5px;
 }
 
 

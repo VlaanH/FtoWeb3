@@ -27,22 +27,12 @@ namespace FtoWeb3.Controllers
         {
             return View("HomePages/UniversalAddressPage",new UniversalAddressPage{UserAddress = address,Page = GetMethodName()});
         }
-        
-        public IActionResult Settings()
-        {
-            return View("Pages/Settings");
-        }
 
         public IActionResult Error404()
         {
             return View("Pages/Error404");
         }
-        public IActionResult Register()
-        {
-            return View("Pages/Register");
-        }
-        
-        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

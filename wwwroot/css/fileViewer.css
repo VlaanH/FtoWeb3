@@ -1,0 +1,24 @@
+.downloadFileInfo
+{
+    justify-content: space-between;
+    min-height: 100%;
+    display: inline-flex;
+    width: 820px;
+}
+.imageFile
+{
+    width: auto;
+    max-width: 800px;
+    max-height: 465px;
+}
+.manFileViewer
+{
+    display: inherit;
+}
+.fileViewerText
+{   
+    margin: auto;
+    margin-top: 18px;
+    width: 845px;
+    background-color: #2e3442;
+}
