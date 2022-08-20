@@ -75,9 +75,11 @@ contract FtoWeb3
         bool Completed;
 
         string Id;
+
+        uint BlockSize;
     }
 
-    int public versions=8;
+    int public versions=9;
 
     address payable public owner;
     FileObj[] fileObjs;
@@ -119,7 +121,7 @@ contract FtoWeb3
 
     }
 
-    function CreateFile(string memory id,string memory fileName) public payable
+    function CreateFile(string memory id,string memory fileName,uint BlockSize) public payable
     {
 
         if(FileExist(id))
@@ -131,7 +133,7 @@ contract FtoWeb3
             address owner = payable(msg.sender);
 
 
-            FileObj memory newFileObj = FileObj(owner,"",fileName,0,false,id);
+            FileObj memory newFileObj = FileObj(owner,"",fileName,0,false,id,BlockSize);
 
             fileObjs.push(newFileObj);
         }
@@ -205,6 +207,39 @@ contract FtoWeb3
         if(IsFileExist)
         {
             return fileObjs[numberId].FileSize;
+        }
+        else
+        {
+            require(false,"file does not exist");
+        }
+
+    }
+
+    function getFileName(string memory id) public view returns(string memory)
+    {
+        bool IsFileExist=FileExist(id);
+        uint numberId=GetNumberId(id);
+
+        if(IsFileExist)
+        {
+            return fileObjs[numberId].FileName;
+        }
+        else
+        {
+            require(false,"file does not exist");
+        }
+
+    }
+
+
+    function getBlockSize(string memory id) public view returns(uint)
+    {
+        bool IsFileExist=FileExist(id);
+        uint numberId=GetNumberId(id);
+
+        if(IsFileExist)
+        {
+            return fileObjs[numberId].BlockSize;
         }
         else
         {
