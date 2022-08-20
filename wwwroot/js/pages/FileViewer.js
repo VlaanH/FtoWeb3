@@ -6,18 +6,27 @@ var Extension = document.getElementById("Extension");
 
 var FileName = document.getElementById("FileName");
 
+var DownloadButton = document.getElementById("DownloadButton");
+
 
 
 async function SetFileToView(fileId) 
 {
     var fileBase64 = await Web3GetFile(fileId);
-   // resultTextarea.innerHTML=fileBase64;
+    
+    var extension = GetExtension(fileBase64);
+    
     ResultImage.src = fileBase64;
     
     SizeFile.innerText = GetFileSize(fileBase64);
     
-    // SizeFile.innerHTML = fileBase64.size();
-    Extension.innerHTML = GetExtension(fileBase64).toUpperCase();
+    Extension.innerHTML = extension.toUpperCase();
+
+
+    DownloadButton.addEventListener("click", ()=>
+    {
+        downloadBase64(fileBase64,"test",extension)
+    });
 }
 
 
@@ -43,3 +52,4 @@ function GetFileSize(fileBase64)
 
     
 }
+
