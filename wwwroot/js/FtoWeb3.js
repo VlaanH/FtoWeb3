@@ -1,25 +1,21 @@
-function downloadBase64(data)
+function downloadBase64(data,fileName,extension)
 {
     const linkSource = data;
     const downloadLink = document.createElement("a");
-    const fileName = "vct_illustration.mp4";
 
     downloadLink.href = linkSource;
-    downloadLink.download = fileName;
+    downloadLink.download = fileName+"."+extension;
     downloadLink.click();
 }
 
 
-function getBase64(file) 
-{
-    return new Promise((resolve, reject) =>
-    {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-}
+
+const getBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
 
 
 function changeVideoSource(url)
@@ -37,9 +33,12 @@ function GetFileId(base64)
    return extension+hash;
 }
 
-function SplitFile(base64)
+function SplitFile(base64,blockSize4)
 {
-    return base64.split(/(.{9000})/).filter(O=>O);
+    const pattern = new RegExp(".{1," + blockSize4 + "}", "ig");
+
+    return base64.match(pattern).map(item => item.padEnd(blockSize4,""));
+   
 }
 
 
@@ -48,92 +47,84 @@ function GetExtension(base64)
     return base64.split(';')[0].split('/')[1];
 }
 
+function fileObject() 
+{
+    this.FileId;
+    
+    this.SplitFile;
+    
+    this.IsFileExist;
+}
+
+async function GetFileObject(file) 
+{
+    var data = await getBase64(file);
+
+
+    var FileObject = new fileObject();
+    
+    FileObject.FileId = GetFileId(data);
+
+    FileObject.SplitFile = SplitFile(data,BlockSize);
+    
+    FileObject.IsFileExist = await Web3FileExist(FileObject.FileId);
+    
+    return FileObject;
+}
+
 
 async function FileUpload(file)
 {
+    FileStatusSet(FileInput);
+
+    var FileObject = await GetFileObject(file);
     
-    getBase64(file).then
-    (
-        async data => 
-        {
-            
-            var fileId = GetFileId(data);
-            
-            var splitFile = SplitFile(data);
-            
-           
-            if (await Web3FileExist(fileId))
-            {
-                var fileWeb3Size = parseInt(await Web3GetFileSize(fileId));
+    if (FileObject.IsFileExist)
+    {
+        var fileWeb3Size = parseInt(await Web3GetFileSize(FileObject.FileId));
                 
-                await Web3FileUpload(fileId,splitFile[fileWeb3Size],fileWeb3Size+1);
-            }
-            else 
-            {
-                await Web3CrateFile(fileId,file.name);
-            }
-        }
-    );
+        await Web3FileUpload(FileObject.FileId,FileObject.SplitFile[fileWeb3Size],fileWeb3Size+1);
+    }
+    else 
+    {
+        alert("File does not exist")
+    }
+  
 
 }
 async function FileCreate(file)
 {
-
-    getBase64(file).then
-    (
-        async data =>
-        {
-
-            var fileId = GetFileId(data);
-
-            var splitFile = SplitFile(data);
-
-
-            console.log(fileId);
-            console.log(splitFile.length);
+    var FileObject = await GetFileObject(file);
+    
+    console.log(FileObject.FileId);
+    console.log(FileObject.SplitFile.length);
             
-            await Web3CrateFile(fileId,file.name);
-           
-
-        }
-    );
-
+    await Web3CrateFile(FileObject.FileId,file.name);
 }
 
 async function FileStatusSet(file)
 {
-    getBase64(file).then
-    (
-        async data =>
+    var FileObject = await GetFileObject(file);
+    
+    var splitFileSize = FileObject.SplitFile.length;
+            
+    if (FileObject.IsFileExist)
+    {
+        var fileWeb3Size = await Web3GetFileSize(FileObject.FileId);
+                
+        if (fileWeb3Size===splitFileSize.toString())
         {
-
-            var fileId = GetFileId(data);
-            
-            console.log(fileId);
-            
-            var splitFileSize = SplitFile(data).length;
-            
-            if (await Web3FileExist(fileId))
-            {
-                var fileWeb3Size = await Web3GetFileSize(fileId);
-                
-                if (fileWeb3Size===splitFileSize.toString())
-                {
-                    setProgressPoint(3,fileWeb3Size+"/"+splitFileSize,fileId);
-                }
-                else 
-                {
-                    setProgressPoint(2,fileWeb3Size+"/"+splitFileSize,fileId);
-                }
-                
-            }
-            else 
-            {
-                setProgressPoint(1,"0/"+splitFileSize,fileId);
-            }
-            
-
-            
+            setProgressPoint(3,fileWeb3Size+"/"+splitFileSize,FileObject.FileId);
         }
-    );
+        else 
+        {
+            setProgressPoint(2,fileWeb3Size+"/"+splitFileSize,FileObject.FileId);
+        }
+                
+    }
+    else 
+    {
+        setProgressPoint(1,"0/"+splitFileSize,FileObject.FileId);
+    }
+            
 }
