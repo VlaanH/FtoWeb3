@@ -7,13 +7,12 @@
 }
 .imageFile
 {
-    width: auto;
-    max-width: 800px;
-    max-height: 465px;
+    max-width: 97%;
+    max-height: 97%
 }
 .manFileViewer
 {
-    display: inherit;
+    display: contents;
 }
 .fileViewerText
 {   
