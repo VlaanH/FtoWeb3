@@ -15,11 +15,8 @@ namespace FtoWeb3.Controllers
         
         public IActionResult FileAdd(string address = default)
         {
-      
-           
             try
             {
-            
                 return PartialView("Pages/FileAdd",address);
             }
             catch (Exception)
@@ -31,11 +28,8 @@ namespace FtoWeb3.Controllers
         
         public IActionResult FileViewer(string address = default)
         {
-      
-           
             try
             {
-            
                 return PartialView("Pages/FileViewer",address);
             }
             catch (Exception)

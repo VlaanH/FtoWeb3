@@ -23,9 +23,9 @@ namespace FtoWeb3.Controllers
             return View("HomePages/UniversalAddressPage",new UniversalAddressPage{UserAddress = address,Page = GetMethodName()});
         }
 
-        public IActionResult FileAdd(string address)
+        public IActionResult FileAdd()
         {
-            return View("HomePages/UniversalAddressPage",new UniversalAddressPage{UserAddress = address,Page = GetMethodName()});
+            return View("HomePages/UniversalNonAddressPage",new UniversalAddressPage{Page = GetMethodName()});
         }
 
         public IActionResult Error404()
