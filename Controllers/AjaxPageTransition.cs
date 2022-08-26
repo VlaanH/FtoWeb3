@@ -45,19 +45,12 @@ namespace FtoWeb3.Controllers
 
         }
 
-
-        public IActionResult Settings()
-        {
-            return PartialView("Pages/Settings");
-        }
+        
 
         public IActionResult Error404()
         {
             return PartialView("Pages/Error404");
         }
-        public IActionResult Register()
-        {
-            return PartialView("Pages/Register");
-        }
+   
     }
 }
