@@ -70,7 +70,7 @@ namespace FtoWeb3
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=FileViewer}/{id?}");
+                    pattern: "{controller=Home}/{action=FileAdd}/{address?}");
                 endpoints.MapRazorPages();
             });
         }
