@@ -11,17 +11,29 @@ var ButtonUploadingFile = document.getElementById("ButtonUploadingFile");
 var ProgressText = document.getElementById('ProgressText');
 var OpenButtonPage = document.getElementById('OpenButtonPage');
 
+var SelectedValue = document.getElementById('SelectedTextValue');
+var SizeSlider = document.getElementById('SizeSlider');
+
+var BlockSizeBox = document.getElementById('BlockSizeBox');
+
+
 var FileInput;
 
+var centerValue=SizeSlider.max/1.9;
 
+SetSliderBackgroundRange(centerValue);
+ChangeBlocksSize(centerValue);
+SizeSlider.value=centerValue;
 
-function SetDefaultBoxStatus() 
+SizeSlider.addEventListener("input", (e)=>
 {
-    StepsPoints.classList.add("hidden");
-    DropArea.classList.remove("active");
-    DragText.textContent = "Drag & Drop to Upload File";
-}
+    var inputValue = e.target.value;
+    ChangeBlocksSize(inputValue);
+    
+    SetSliderBackgroundRange(inputValue);
 
+    FileStatusSet(FileInput);
+});
 
 
 input.addEventListener("change", function(){
@@ -74,6 +86,27 @@ DropArea.addEventListener("drop", (event)=>{
     
 });
 
+function ChangeBlocksSize(value) 
+{
+    SelectedValue.innerHTML = "Block size: "+(value/1000).toFixed(2) +" KB";
+} 
+
+
+function SetSliderBackgroundRange(value)
+{
+    var percent= ((value-500)/SizeSlider.max)*100;
+
+    SizeSlider.style="Background:linear-gradient(to right, rgb(170, 178, 189) "+percent+"%, rgb(241, 241, 241)"+percent+"%";
+}
+
+function SetDefaultBoxStatus()
+{
+    StepsPoints.classList.add("hidden");
+    DropArea.classList.remove("active");
+    DragText.textContent = "Drag & Drop to Upload File";
+}
+
+
 function setCrateStatus(status) 
 {
     if(status===true)
@@ -104,12 +137,16 @@ function setProgressPoint(pointPosition,text,id)
            ButtonStepCreate.disabled = false;
            ButtonUploadingFile.disabled = true;
            OpenButtonPage.disabled = true;
+           hidden(BlockSizeBox.id,false)
+           
            setCrateStatus(false);
            break;
        case 2:
            ButtonStepCreate.disabled = true;
            ButtonUploadingFile.disabled = false;
            OpenButtonPage.disabled = true;
+           hidden(BlockSizeBox.id,true)
+
            setCrateStatus(true);
            break;
        case 3:
@@ -117,6 +154,7 @@ function setProgressPoint(pointPosition,text,id)
            ButtonUploadingFile.disabled = true;
            OpenButtonPage.disabled = false;
            OpenButtonPage.address=id;
+           hidden(BlockSizeBox.id,true)
            console.log(id);
            
            setCrateStatus(true);

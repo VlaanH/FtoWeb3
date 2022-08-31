@@ -65,9 +65,18 @@ async function GetFileObject(file)
     
     FileObject.FileId = GetFileId(data);
 
-    FileObject.SplitFile = SplitFile(data,BlockSize);
-    
     FileObject.IsFileExist = await Web3FileExist(FileObject.FileId);
+    
+    if (FileObject.IsFileExist)
+    {
+        var fileBlock = await Web3GetBlockSize(FileObject.FileId);
+        
+        FileObject.SplitFile = SplitFile(data,fileBlock);
+    }
+   else 
+   {
+       FileObject.SplitFile=SplitFile(data,SizeSlider.value);
+   }
     
     return FileObject;
 }

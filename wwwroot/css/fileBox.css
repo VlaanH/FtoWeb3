@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 .fileTextDiv
 {
-  /*  width: 31%;*/
+    margin-block: 18px;
     background-color: #2e3442;
 }
 .font-size-root
 {
     font-size: 24px;
 }
-.drag-area{
+.drag-area
+{
     margin-top: 20px;
     border: 2px dashed #fff;
     height: 500px;
@@ -18,25 +19,30 @@
     justify-content: center;
     flex-direction: column;
 }
-.drag-area.active{
+.drag-area.active
+{
     border: 2px solid #fff;
 }
-.drag-area .icon{
+.drag-area .icon
+{
     font-size: 100px;
     color: #fff;
 }
-.drag-area header{
+.drag-area header
+{
     font-size: 30px;
     font-weight: 500;
     color: #fff;
 }
-.drag-area span{
+.drag-area span
+{
     font-size: 25px;
     font-weight: 500;
     color: #fff;
     margin: 10px 0 15px 0;
 }
-.btnFileBox{
+.btnFileBox
+{
     padding: 10px 25px;
     font-size: 20px;
     font-weight: 500;
@@ -93,7 +99,7 @@
     width: 97%;
     height: 15%;
     border-bottom: 4px;
-    z-index: -1;
+    z-index: 0;
 }
 .percent 
 {
@@ -107,7 +113,6 @@
 {
     background: transparent;
     border: 0px;
-    text-align: -webkit-center;
     color: #fff;
 }
 .stepButton:focus

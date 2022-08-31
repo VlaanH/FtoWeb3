@@ -1,8 +1,8 @@
 @model string
-
 @await Html.PartialAsync("_title","Account settings")
 <script src="~/js/pages/FileBox.js"></script>
-<div class="text-center">
+
+<div class="text-center" id="Frame">
     
     
     <div id="drag-area" class="drag-area">
@@ -17,24 +17,36 @@
         <input id="inputFile" type="file" hidden>
     </div>
     
-    <div>
-        <div class="StepsPointsContainer hidden" id="StepsPoints">
+    <div class="fileTextDiv padding-root rounded-root hidden" id="StepsPoints">
+        
+        <div id="BlockSizeBox" class="hidden">
+            <div class="sizeList">
+                <h5>1 kb</h5>
+                <h5 id="SelectedTextValue">Block size: 12 KB</h5>
+                <h5>24 kb</h5>
+            </div>
+            <input type="range" id="SizeSlider" min="1000" max="24000" value="12000" class="slider">
+        </div>
+        
+        <div class="StepsPointsContainer">
             <div class="progress">
                 <div class="percent"></div>
             </div>
-            
+
             <div class="steps">
+
                 <button class="stepButton" id="ButtonStepCreate" onclick="FileCreate(FileInput)">
                     <div class="step"></div>
                     <a id="CrateText"></a>
                     <br/>
                 </button>
+
                 <button class="stepButton" id="ButtonUploadingFile" onclick="FileUpload(FileInput)">
                     <div class="step"></div>
                     <a id="ProgressText"></a>
                     <br/>
                 </button>
-                
+
                 <button class="stepButton" id="OpenButtonPage" onclick="PageAjaxTransition('FileViewer',this.address,true);">
                     <div class="step"></div>
                     <a id="PenPageText"></a>
@@ -43,6 +55,7 @@
 
             </div>
         </div>
+
     </div>
     
 </div>
