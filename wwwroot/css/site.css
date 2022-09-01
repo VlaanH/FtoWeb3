@@ -1,11 +1,17 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-a {
+a 
+{
   color: black;
 }
 a:hover
 {
   color: #8247e5;
+}
+p:last-of-type, p:only-child
+{
+  margin-top: 0;
+  margin-bottom: 0;
 }
 .pointer {
   cursor: pointer;
@@ -40,93 +46,96 @@ a.navbar-brand {
 .hidden
 {
   display: none;
-  
 }
 .padding-root
 {
   padding: 9px;
-
 }
 .rounded-root
 {
   border-radius: 15px;
 }
 
-.btn-primary {
+.btn-primary 
+{
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-::-webkit-scrollbar {
-
+::-webkit-scrollbar 
+{
   width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
-
+::-webkit-scrollbar-track
+{
   background: #f1f1f1;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb 
+{
   border-radius: 30px;
   background: #b1aeae;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-
-
+::-webkit-scrollbar-thumb:hover 
+{
   background: #929292;
 }
-.btn-white {
+.btn-white 
+{
   color: #000;
   background-color: #ffffff;
   border-color: #6c757d;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link 
+{
   color: #fff;
   background-color: #8247e5;
   border-color: #1861ac;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
+html 
+{
   font-size: 14px;
 }
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-.border-top {
+.border-top
+{
   border-top: 1px solid #e5e5e5;
 }
-.border-bottom {
+.border-bottom 
+{
   border-bottom: 1px solid #e5e5e5;
 }
-.box-shadow {
+.box-shadow 
+{
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
-button.accept-policy {
+button.accept-policy 
+{
   font-size: 1rem;
   line-height: inherit;
 }
-html {
+html 
+{
   position: relative;
   min-height: 100%;
 }
-.containerFooter{
+.containerFooter
+{
   width: 100%;
   padding: 0;
 }
-.container{
+.container
+{
   min-height: calc(100vh - 105px);
 }
-.footer {
+.footer
+{
   background-color: #f2f2f2;
   left: 0; bottom: 0; 
   padding: 10px; 
@@ -140,4 +149,30 @@ html {
 .margin-root
 {
   margin: 10px;
+}
+html
+{
+  font-size: 16px;
+}
+@media (max-width:1200px)
+{
+
+}
+@media (max-width:900px)
+{
+
+
+}
+@media (max-width:767px)
+{
+  
+  .btn-Edit-Profile
+  {
+    margin-bottom: 10px;
+  }
+  .header-control
+  {
+    display: none;
+  }
+
 }
