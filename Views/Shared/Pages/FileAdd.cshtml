@@ -6,7 +6,6 @@
     
     
     <div id="drag-area" class="drag-area">
-        <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
         <div class="fileTextDiv padding-root rounded-root">
             <h3 id="FileLabel">Drag & Drop to Upload File</h3>
             <h3>OR</h3>
@@ -35,19 +34,19 @@
 
             <div class="steps">
 
-                <button class="stepButton" id="ButtonStepCreate" onclick="FileCreate(FileInput)">
+                <button class="btn-step" id="ButtonStepCreate" onclick="FileCreate(FileInput)">
                     <div class="step"></div>
                     <a id="CrateText"></a>
                     <br/>
                 </button>
 
-                <button class="stepButton" id="ButtonUploadingFile" onclick="FileUpload(FileInput)">
+                <button class="btn-step" id="ButtonUploadingFile" onclick="FileUpload(FileInput)">
                     <div class="step"></div>
                     <a id="ProgressText"></a>
                     <br/>
                 </button>
 
-                <button class="stepButton" id="OpenButtonPage" onclick="PageAjaxTransition('FileViewer',this.address,true);">
+                <button class="btn-step" id="OpenButtonPage" onclick="PageAjaxTransition('FileViewer',this.address,true);">
                     <div class="step"></div>
                     <a id="PenPageText"></a>
                     <br/>

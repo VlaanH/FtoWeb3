@@ -29,31 +29,16 @@ p:last-of-type, p:only-child
   display: grid;
 }
 
-a.navbar-brand {
+a.navbar-brand 
+{
   white-space: normal;
   text-align: center;
   word-break: break-all;
 }
-.iconButtonNonBorder
-{
-  margin: 4px;
-  width: 22px;
-  height: 22px;
-  margin-top: -1px;
 
-}
-/* Provide sufficient contrast against white background */
 .hidden
 {
   display: none;
-}
-.padding-root
-{
-  padding: 9px;
-}
-.rounded-root
-{
-  border-radius: 15px;
 }
 
 .btn-primary 
@@ -85,12 +70,7 @@ a.navbar-brand {
 {
   background: #929292;
 }
-.btn-white 
-{
-  color: #000;
-  background-color: #ffffff;
-  border-color: #6c757d;
-}
+
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link 
 {
@@ -99,10 +79,6 @@ a.navbar-brand {
   border-color: #1861ac;
 }
 
-html 
-{
-  font-size: 14px;
-}
 .border-top
 {
   border-top: 1px solid #e5e5e5;
@@ -120,11 +96,6 @@ button.accept-policy
   font-size: 1rem;
   line-height: inherit;
 }
-html 
-{
-  position: relative;
-  min-height: 100%;
-}
 .containerFooter
 {
   width: 100%;
@@ -134,25 +105,38 @@ html
 {
   min-height: calc(100vh - 105px);
 }
+.content
+{
+  padding-bottom: 10px;
+  width: 95%;
+  margin: 0 auto 10px;
+}
+
+html
+{
+  position: relative;
+  min-height: 100%;
+  font-size: 16px;
+}
+body
+{
+  background-repeat: repeat-y, repeat-y;
+  background-position: left, right;
+  background-attachment: fixed, fixed;
+  background-size: cover;
+  font-family: "Poppins", sans-serif;
+  color: #fbffff;
+  background-color: #141821;
+  margin: 0;
+  height: 100%;
+}
 .footer
 {
   background-color: #f2f2f2;
-  left: 0; bottom: 0; 
-  padding: 10px; 
+  left: 0; bottom: 0;
+  padding: 10px;
   width: 100%;
   text-align: center;
-}
-.margin-right-root
-{
-  margin-right: 10px;
-}
-.margin-root
-{
-  margin: 10px;
-}
-html
-{
-  font-size: 16px;
 }
 @media (max-width:1200px)
 {
@@ -165,7 +149,10 @@ html
 }
 @media (max-width:767px)
 {
-  
+  html
+  {
+    font-size: 14px;
+  }
   .btn-Edit-Profile
   {
     margin-bottom: 10px;

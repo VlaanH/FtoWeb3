@@ -4,10 +4,6 @@
     margin-block: 18px;
     background-color: #2e3442;
 }
-.font-size-root
-{
-    font-size: 24px;
-}
 .drag-area
 {
     margin-top: 20px;
@@ -93,7 +89,7 @@
     position: absolute;
     margin-top: 16px;
     margin-inline: 2%;
-    width: 97%;
+    width: 96%;
     height: 15%;
     border-bottom: 4px;
     z-index: 0;
@@ -105,14 +101,4 @@
     border-bottom: 4px solid #2e3442;
     z-index: 1;
     transition: width 1s;
-}
-.stepButton
-{
-    background: transparent;
-    border: 0px;
-    color: #fff;
-}
-.stepButton:focus
-{
-    outline: none;
 }

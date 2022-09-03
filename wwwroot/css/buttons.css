@@ -1,0 +1,39 @@
+.btn-purple
+{
+    color: white;
+    padding: 9px;
+    background-color: #8247e5;
+    background-repeat: no-repeat;
+    border: none;
+}
+.btn-white-purple
+{
+    color: white;
+    padding: 9px;
+    background-color: #ae7fe5;
+    background-repeat: no-repeat;
+    border: none;
+}
+.btn-white
+{
+    color: #000;
+    background-color: #ffffff;
+    border-color: #6c757d;
+}
+.btn-step
+{
+    background: transparent;
+    border: 0px;
+    color: #fff;
+}
+.btn-step:focus
+{
+    outline: none;
+}
+.iconButtonNonBorder
+{
+    margin: 4px;
+    width: 22px;
+    height: 22px;
+    margin-top: -1px;
+}
