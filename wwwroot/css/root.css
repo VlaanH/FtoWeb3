@@ -18,3 +18,7 @@
 {
     margin: 10px;
 }
+.max-width-root
+{
+    max-width: 1200px;
+}
