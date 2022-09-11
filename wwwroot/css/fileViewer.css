@@ -10,7 +10,7 @@
     max-width: 97%;
     max-height: 97%
 }
-.manFileViewer
+#manFileViewer
 {
     display: contents;
 }

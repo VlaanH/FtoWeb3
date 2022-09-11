@@ -1,4 +1,4 @@
-var ResultImage = document.getElementById("ResultImage");
+var ResultDiv = document.getElementById("manFileViewer");
 
 var SizeFile = document.getElementById("SizeFile");
 
@@ -16,9 +16,9 @@ async function SetFileToView(fileId)
     
     var extension = GetExtension(fileBase64);
     
-    ResultImage.src = fileBase64;
+    ResultDiv.append(getHTMLElementByExtension(fileBase64,extension));
     
-    SizeFile.innerText = GetFileSize(fileBase64);
+    SizeFile.innerText = getFileSize(fileBase64);
     
     Extension.innerHTML = extension.toUpperCase();
 
@@ -29,8 +29,53 @@ async function SetFileToView(fileId)
     });
 }
 
+function getHTMLElementByExtension(fileBase64,extension) 
+{
+    switch (extension.toUpperCase()) 
+    {
+        case "JPG":
+        case "PNG":
+        case "JPEG":
+        {
+            var img=document.createElement("img");
+            
+            img.src=fileBase64;
+            img.classList="imageFile rounded-root";
+            
+            return img;
+        }
+        case "PDF":
+        {
+            var style = "width: 100%;height: 100%;";
+            var obj = document.createElement("object");
+            obj.data=fileBase64;
+            obj.type="application/pdf";
+            obj.classList="padding-root";
+            obj.style=style;
 
-function GetFileSize(fileBase64) 
+            var iframe = document.createElement("iframe");
+            iframe.src=fileBase64;
+            iframe.style = style;
+            iframe.classList="rounded-root";
+
+            obj.append(iframe);
+            return obj;
+        }
+        default:
+        {
+            var p = document.createElement("p");
+            p.innerText="File";
+            
+            return p;
+        }
+
+    }
+    
+    
+}
+
+
+function getFileSize(fileBase64) 
 {
     var byte = new Blob([fileBase64]).size;
 
