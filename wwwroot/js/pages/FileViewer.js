@@ -35,6 +35,7 @@ function getHTMLElementByExtension(fileBase64,extension)
     {
         case "JPG":
         case "PNG":
+        case "GIF":
         case "JPEG":
         {
             var img=document.createElement("img");
