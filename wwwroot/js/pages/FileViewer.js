@@ -12,16 +12,23 @@ var DownloadButton = document.getElementById("DownloadButton");
 
 async function SetFileToView(fileId) 
 {
-    var fileBase64 = await Web3GetFile(fileId);
+    var fileName = await Web3GetFileName(fileId);
     
+    FileName.innerText=normalizeName(fileName,8)
+    
+    FileName.title=fileName;
+
+    
+    var fileBase64 = await Web3GetFile(fileId);
+
     var extension = GetExtension(fileBase64);
     
     ResultDiv.append(getHTMLElementByExtension(fileBase64,extension));
     
     SizeFile.innerText = getFileSize(fileBase64);
     
-    Extension.innerHTML = extension.toUpperCase();
-
+    Extension.innerText = extension.toUpperCase();
+    
 
     DownloadButton.addEventListener("click", ()=>
     {

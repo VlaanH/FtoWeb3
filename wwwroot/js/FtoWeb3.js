@@ -9,6 +9,20 @@ function downloadBase64(data,fileName,extension)
 }
 
 
+function normalizeName(fullName,maximumLineSize) 
+{
+    if (fullName.length<=maximumLineSize)
+    {
+        return fullName;
+    }
+    else 
+    {
+        return fullName.substring(0,maximumLineSize)+"...";
+    }
+    
+}
+
+
 
 const getBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();

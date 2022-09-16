@@ -211,3 +211,12 @@ async function Web3GetBlockSize(id)
 
     return symbol;
 }
+async function Web3GetFileName(id)
+{
+    const symbol = await contract.methods.getFileName(id).call();
+
+    console.log(symbol);
+
+
+    return symbol;
+}
