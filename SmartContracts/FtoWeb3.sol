@@ -66,11 +66,13 @@ contract FtoWeb3
     {
         address Owner;
 
-        string Base64Data;
+        string[] Base64Data;
 
         string FileName;
 
         uint FileSize;
+
+        uint PartsLoaded;
 
         bool Completed;
 
@@ -79,7 +81,7 @@ contract FtoWeb3
         uint BlockSize;
     }
 
-    int public versions=9;
+    int public versions=10;
 
     address payable public owner;
     FileObj[] fileObjs;
@@ -121,7 +123,20 @@ contract FtoWeb3
 
     }
 
-    function CreateFile(string memory id,string memory fileName,uint BlockSize) public payable
+    function GetFullBase64(string[] memory base64Data) private view returns (string memory)
+    {
+        string memory fullBase64;
+
+        for (uint i=0;base64Data.length>i;i++)
+        {
+            fullBase64 = string(abi.encodePacked(base64Data[i],fullBase64));
+        }
+
+        return fullBase64;
+    }
+
+
+    function CreateFile(string memory id,string memory fileName,uint blockSize,uint parts) public payable
     {
 
         if(FileExist(id))
@@ -132,8 +147,9 @@ contract FtoWeb3
         {
             address owner = payable(msg.sender);
 
+            string[] memory voidsBase64 = new string[](parts);
 
-            FileObj memory newFileObj = FileObj(owner,"",fileName,0,false,id,BlockSize);
+            FileObj memory newFileObj = FileObj(owner,voidsBase64,fileName,0,0,false,id,blockSize);
 
             fileObjs.push(newFileObj);
         }
@@ -151,16 +167,20 @@ contract FtoWeb3
 
         if(IsFileExist)
         {
-            address owner = payable(msg.sender);
+            address sender = payable(msg.sender);
 
 
 
-            if(fileObjs[NumberId].Owner==owner)
+            if(fileObjs[NumberId].Owner==sender)
             {
-                if(fileObjs[NumberId].FileSize==partId-1)
+                //void
+                if(keccak256(abi.encodePacked(fileObjs[NumberId].Base64Data[partId-1]))==keccak256(abi.encodePacked("")))
                 {
-                    fileObjs[NumberId].FileSize++;
-                    fileObjs[NumberId].Base64Data=string(abi.encodePacked(fileObjs[NumberId].Base64Data,base64Data));
+                    fileObjs[NumberId].PartsLoaded++;
+
+                    fileObjs[NumberId].FileSize += bytes(base64Data).length;
+
+                    fileObjs[NumberId].Base64Data[partId-1]=base64Data;
                 }
                 else
                 {
@@ -182,6 +202,25 @@ contract FtoWeb3
 
     }
 
+
+    function getFilePart(string memory id,uint part) public view returns(string memory)
+    {
+        bool IsFileExist=FileExist(id);
+        uint numberId=GetNumberId(id);
+
+        if(IsFileExist)
+        {
+            return fileObjs[numberId].Base64Data[part-1];
+        }
+        else
+        {
+            require(false,"file does not exist");
+        }
+
+
+    }
+
+
     function getFile(string memory id) public view returns(string memory)
     {
         bool IsFileExist=FileExist(id);
@@ -189,7 +228,7 @@ contract FtoWeb3
 
         if(IsFileExist)
         {
-            return fileObjs[numberId].Base64Data;
+            return GetFullBase64(fileObjs[numberId].Base64Data);
         }
         else
         {
@@ -207,6 +246,22 @@ contract FtoWeb3
         if(IsFileExist)
         {
             return fileObjs[numberId].FileSize;
+        }
+        else
+        {
+            require(false,"file does not exist");
+        }
+
+    }
+
+    function getPartsLoaded(string memory id) public view returns(uint)
+    {
+        bool IsFileExist=FileExist(id);
+        uint numberId=GetNumberId(id);
+
+        if(IsFileExist)
+        {
+            return fileObjs[numberId].PartsLoaded;
         }
         else
         {
