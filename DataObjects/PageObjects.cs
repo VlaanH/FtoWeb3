@@ -7,7 +7,7 @@ namespace FtoWeb3.PageObjects
    
     public class BasicView
     {
-        public string UserAddress { get; set; }
+        public string PageAddress { get; set; }
         
         public string PageVisitor { get; set; }
     }

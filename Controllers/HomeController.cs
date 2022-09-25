@@ -20,7 +20,7 @@ namespace FtoWeb3.Controllers
         }
         public IActionResult FileViewer(string address)
         {
-            return View("HomePages/UniversalAddressPage",new UniversalAddressPage{UserAddress = address,Page = GetMethodName()});
+            return View("HomePages/UniversalAddressPage",new UniversalAddressPage{PageAddress = address,Page = GetMethodName()});
         }
 
         public IActionResult FileAdd()

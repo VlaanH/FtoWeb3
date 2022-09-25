@@ -1,7 +1,7 @@
 @model FtoWeb3.PageObjects.UniversalAddressPage
 
 <script>
-var AddressPage="0x"+"@Model";
+SmartContractVersion = GetSmartContractVersion("@Model.PageAddress");
 </script>
 
     <div class="text-center">
@@ -11,7 +11,7 @@ var AddressPage="0x"+"@Model";
         </div>
     </div>
 
-@if (Model.UserAddress==default)
+@if (Model.PageAddress==default)
 {   
     <script>
         
@@ -27,7 +27,7 @@ else
     <script>
         function initPage() 
         {
-            PageAjaxTransition("@Model.Page","@Model.UserAddress",true);  
+            PageAjaxTransition("@Model.Page","@Model.PageAddress",true);  
         }
        
     </script>
