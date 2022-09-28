@@ -14,7 +14,7 @@ async function SetFileToView(fileId)
 {
     var fileName = await Web3GetFileName(fileId);
     
-    FileName.innerText=normalizeName(fileName,8)
+    FileName.innerText=normalizeName(fileName,8);
     
     FileName.title=fileName;
 
@@ -32,7 +32,7 @@ async function SetFileToView(fileId)
 
     DownloadButton.addEventListener("click", ()=>
     {
-        downloadBase64(fileBase64,"test",extension)
+        downloadBase64(fileBase64,"test",extension);
     });
 }
 

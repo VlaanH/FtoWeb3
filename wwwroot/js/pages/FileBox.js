@@ -1,25 +1,26 @@
 //selecting all required elements
-var StepsPoints = document.getElementById("StepsPoints");
-var DropArea = document.getElementById("drag-area");
-var DragText = document.getElementById("FileLabel");
-var input = document.getElementById("inputFile");
+let StepsPoints = document.getElementById("StepsPoints");
+let DropArea = document.getElementById("drag-area");
+let DragText = document.getElementById("FileLabel");
+let input = document.getElementById("inputFile");
 
-var Steps = document.getElementsByClassName('step');
-var ButtonStepCreate = document.getElementById("ButtonStepCreate");
-var ButtonUploadingFile = document.getElementById("ButtonUploadingFile");
+let Steps = document.getElementsByClassName('step');
+let ButtonStepCreate = document.getElementById("ButtonStepCreate");
+let ButtonUploadingFile = document.getElementById("ButtonUploadingFile");
+let VersionSelector = document.getElementById("VersionSelector");
 
-var ProgressText = document.getElementById('ProgressText');
-var OpenButtonPage = document.getElementById('OpenButtonPage');
+let ProgressText = document.getElementById('ProgressText');
+let OpenButtonPage = document.getElementById('OpenButtonPage');
 
-var SelectedValue = document.getElementById('SelectedTextValue');
-var SizeSlider = document.getElementById('SizeSlider');
+let SelectedValue = document.getElementById('SelectedTextValue');
+let SizeSlider = document.getElementById('SizeSlider');
 
-var BlockSizeBox = document.getElementById('BlockSizeBox');
+let BlockSizeBox = document.getElementById('BlockSizeBox');
 
 
 var FileInput;
 
-var centerValue=SizeSlider.max/1.9;
+var centerValue = SizeSlider.max/1.9;
 
 SetSliderBackgroundRange(centerValue);
 ChangeBlocksSize(centerValue);
@@ -33,6 +34,13 @@ SizeSlider.addEventListener("input", (e)=>
     SetSliderBackgroundRange(inputValue);
 
     FileStatusSet(FileInput);
+});
+
+VersionSelector.addEventListener("change", ()=>
+{
+    let versionValue = VersionSelector.value;
+    
+    SetSmartContractVersion(versionValue);
 });
 
 
@@ -85,6 +93,14 @@ DropArea.addEventListener("drop", (event)=>{
     FileStatusSet(FileInput);
     
 });
+
+function SetSmartContractVersion(version)
+{
+    SmartContractVersion = parseInt(version);
+    InitContract();
+    if (FileInput != null)
+        FileStatusSet(FileInput);
+}
 
 function ChangeBlocksSize(value) 
 {
@@ -153,7 +169,7 @@ function setProgressPoint(pointPosition,text,id)
            ButtonStepCreate.disabled = true;
            ButtonUploadingFile.disabled = true;
            OpenButtonPage.disabled = false;
-           OpenButtonPage.address=id;
+           OpenButtonPage.address=SmartContractVersion+"*"+id;
            hidden(BlockSizeBox.id,true)
            console.log(id);
            

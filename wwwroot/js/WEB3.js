@@ -16,7 +16,12 @@ window.onload = async () => {
         {
             ShowWeb3NetAndAccount();
         });
-        InitContract();
+        
+        if (SmartContractVersion==null)
+        {
+            SmartContractVersion=parseInt(LatestSmartContractVersion);
+            InitContract();   
+        }
        
     }
 
@@ -141,23 +146,64 @@ async function loginWithEth()
 }
 
 
-const BlockSize=23000;
-const CONTRACT_ADDRESS = '0xF46068Fcd98BD1dD8e8008d83BBbe97F9e33fc92';
-window.ABI = [{"inputs":[],"stateMutability":"payable","type":"constructor"},{"inputs":[{"internalType":"string","name":"id","type":"string"},{"internalType":"string","name":"base64Data","type":"string"},{"internalType":"uint256","name":"partId","type":"uint256"}],"name":"AddFile","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"string","name":"id","type":"string"},{"internalType":"string","name":"fileName","type":"string"},{"internalType":"uint256","name":"BlockSize","type":"uint256"}],"name":"CreateFile","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"string","name":"id","type":"string"}],"name":"FileExist","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"id","type":"string"}],"name":"getBlockSize","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"id","type":"string"}],"name":"getFile","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"id","type":"string"}],"name":"getFileName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"id","type":"string"}],"name":"getFileSize","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"versions","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"}]
 
 
+function VersionSmartContractObj()
+{
+    this.ABI;
+
+    this.CONTRACT_ADDRESS;
+}
+
+
+var SmartContractVersion;
 var contract;
+var CONTRACT_ADDRESS;
+
 function InitContract()
 {
+    switch (SmartContractVersion)
+    {
+        case 9: 
+        {
+            var versionObj = FtoWeb3V9Get();
+            window.ABI = versionObj.ABI;
+            CONTRACT_ADDRESS = versionObj.CONTRACT_ADDRESS;
+            break;
+        }
+        default:
+        {
+            var versionObj = FtoWeb3V10Get();
+            window.ABI = versionObj.ABI;
+            CONTRACT_ADDRESS = versionObj.CONTRACT_ADDRESS;
+            break;
+        }
+    }
+    
     contract = new window.web3.eth.Contract(window.ABI, CONTRACT_ADDRESS);
 }
 
 
 
-async function Web3CrateFile(id,fileName)
+async function Web3CrateFile(id,fileName,parts)
 {
+    var symbol;
+    let blockSize = SizeSlider.value;
+    switch (SmartContractVersion)
+    {
+        
+        case 9:
+        {
+            symbol = await contract.methods.CreateFile(id,fileName,blockSize).send({ from: window.userAddress});
+            break;
+        }
+        default:
+        {
+            symbol = await contract.methods.CreateFile(id,fileName,blockSize,parts).send({ from: window.userAddress});
+            break;
+        }
 
-    const symbol = await contract.methods.CreateFile(id,fileName,BlockSize).send({ from: window.userAddress});
+    }
     
     console.log(symbol);
     await FileStatusSet(FileInput);
@@ -166,26 +212,57 @@ async function Web3CrateFile(id,fileName)
 async function Web3FileUpload(id,base64Data,partId)
 {
 
-    const symbol = await contract.methods.AddFile(id,base64Data,partId).send({ from: window.userAddress});
-    
+    var symbol;
+    switch (SmartContractVersion)
+    {
+        default:
+        case 9:
+        {
+            symbol = await contract.methods.AddFile(id,base64Data,partId).send({ from: window.userAddress});
+            break;
+        }
+       
+    }
 
     console.log(symbol);
     await FileStatusSet(FileInput);
 }
 async function Web3GetFile(id)
 {
-    const symbol = await contract.methods.getFile(id).call();
+    var symbol;
     
-    
+    switch (SmartContractVersion)
+    {
+        default:
+        case 9:
+        {
+            symbol = await contract.methods.getFile(id).call();
+            break;
+        }
+        
+    }
+
     console.log(symbol);
-    
+
     return symbol;
-    
+
 }
 async function Web3GetFileSize(id)
 {
-    const symbol = await contract.methods.getFileSize(id).call();
-
+    var symbol;
+    
+    switch (SmartContractVersion)
+    {
+        case 9:
+        {
+            symbol = await contract.methods.getFileSize(id).call();
+            break;
+        }
+        default:
+        {
+            symbol = await contract.methods.getPartsLoaded(id).call();
+        }
+    }
 
     console.log(symbol);
 
@@ -194,18 +271,40 @@ async function Web3GetFileSize(id)
 }
 async function Web3FileExist(id)
 {
-    const symbol = await contract.methods.FileExist(id).call();
+    var symbol;
+
+    switch (SmartContractVersion)
+    {
+        default:
+        case 9:
+        {
+            symbol = await contract.methods.FileExist(id).call();
+            break;
+        }
+        
+    }
     
     console.log(symbol);
-    
-    
+
+
     return symbol;
-    
+
 }
+
 async function Web3GetBlockSize(id)
 {
-    const symbol = await contract.methods.getBlockSize(id).call();
+    var symbol; 
 
+    switch (SmartContractVersion)
+    {
+        default:
+        case 9:
+        {
+            symbol = await contract.methods.getBlockSize(id).call();
+            break;
+        }
+    }
+    
     console.log(symbol);
 
 
@@ -213,8 +312,18 @@ async function Web3GetBlockSize(id)
 }
 async function Web3GetFileName(id)
 {
-    const symbol = await contract.methods.getFileName(id).call();
+    var symbol;
 
+    switch (SmartContractVersion)
+    {
+        default:
+        case 9:
+        {
+            symbol = await contract.methods.getFileName(id).call();
+            break;
+        }
+       
+    }
     console.log(symbol);
 
 

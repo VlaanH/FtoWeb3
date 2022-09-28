@@ -4,6 +4,26 @@
     margin-block: 18px;
     background-color: #2e3442;
 }
+
+.fileTextDiv .controls
+{
+    display: inline-flex;
+}
+
+.fileTextDiv .control
+{
+    margin-inline: 3px;
+    cursor: pointer;
+    padding: 10px 25px;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #5256ad;
+    border-radius: 5px;
+}
+
 .drag-area
 {
     margin: auto;
@@ -38,18 +58,7 @@
     color: #fff;
     margin: 10px 0 15px 0;
 }
-.btnFileBox
-{
-    padding: 10px 25px;
-    font-size: 20px;
-    font-weight: 500;
-    border: none;
-    outline: none;
-    background: #fff;
-    color: #5256ad;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
 .btnFileBoxMini
 {
     padding: 2px 20px;

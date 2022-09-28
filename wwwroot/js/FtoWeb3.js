@@ -8,6 +8,15 @@ function downloadBase64(data,fileName,extension)
     downloadLink.click();
 }
 
+function GetSmartContractVersion(id) 
+{
+    return parseInt(id.split('*')[0]);
+}
+
+function getIdWithoutVersion(id)
+{
+    return id.split('*')[1];
+}
 
 function normalizeName(fullName,maximumLineSize) 
 {
@@ -122,7 +131,7 @@ async function FileCreate(file)
     console.log(FileObject.FileId);
     console.log(FileObject.SplitFile.length);
             
-    await Web3CrateFile(FileObject.FileId,file.name);
+    await Web3CrateFile(FileObject.FileId,file.name,FileObject.SplitFile.length);
 }
 
 async function FileStatusSet(file)

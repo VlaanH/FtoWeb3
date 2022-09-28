@@ -7,7 +7,8 @@
 
 (async() => 
 {
-  await SetFileToView("@Model") 
+    InitContract();
+    await SetFileToView(getIdWithoutVersion("@Model"))
 
 })();
 </script>
@@ -17,12 +18,12 @@
       <div class="drag-area active max-width-root">
           <div id="manFileViewer"></div>
       </div>
-     <div class="fileViewerText padding-root rounded-root max-width-root">
+     <div class="fileTextDiv fileBoxCenter padding-root rounded-root max-width-root">
          <div class="downloadFileInfo">
              <h4 class="font-size-root margin-root" id="SizeFile">Loading</h4>
              <h4 class="font-size-root margin-root" id="Extension">Loading</h4>
              <h4 class="font-size-root margin-root" id="FileName">Loading</h4>
-             <button class="btn btnFileBox" id="DownloadButton">Download</button>
+             <button class="btn control" id="DownloadButton">Download</button>
          </div>
      </div>   
   </div>

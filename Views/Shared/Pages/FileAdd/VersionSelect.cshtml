@@ -1,0 +1,11 @@
+﻿@using FtoWeb3.ServerInformation
+@{
+    var smartContractVersions = VersionManager.SmartContractVersions.GetVersions();
+}
+
+<select id="VersionSelector" class="control"> 
+    @foreach (var version in smartContractVersions)
+    {
+        <option value="@version">V @version</option>
+    }
+</select>

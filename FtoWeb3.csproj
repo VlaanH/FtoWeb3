@@ -27,6 +27,8 @@
       <_ContentIncludedByDefault Remove="Views\Shared\Profile\UserListDialog.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Home\Index\IsSignedIn.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Home\Index\NotSignedIn.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Pages\FileAdd\VersionSelect.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\FileAdd\VersionSelect.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
