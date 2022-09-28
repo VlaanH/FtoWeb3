@@ -1,21 +1,21 @@
 //selecting all required elements
-let StepsPoints = document.getElementById("StepsPoints");
-let DropArea = document.getElementById("drag-area");
-let DragText = document.getElementById("FileLabel");
-let input = document.getElementById("inputFile");
+var StepsPoints = document.getElementById("StepsPoints");
+var DropArea = document.getElementById("drag-area");
+var DragText = document.getElementById("FileLabel");
+var input = document.getElementById("inputFile");
 
-let Steps = document.getElementsByClassName('step');
-let ButtonStepCreate = document.getElementById("ButtonStepCreate");
-let ButtonUploadingFile = document.getElementById("ButtonUploadingFile");
-let VersionSelector = document.getElementById("VersionSelector");
+var Steps = document.getElementsByClassName('step');
+var ButtonStepCreate = document.getElementById("ButtonStepCreate");
+var ButtonUploadingFile = document.getElementById("ButtonUploadingFile");
+var VersionSelector = document.getElementById("VersionSelector");
 
-let ProgressText = document.getElementById('ProgressText');
-let OpenButtonPage = document.getElementById('OpenButtonPage');
+var ProgressText = document.getElementById('ProgressText');
+var OpenButtonPage = document.getElementById('OpenButtonPage');
 
-let SelectedValue = document.getElementById('SelectedTextValue');
-let SizeSlider = document.getElementById('SizeSlider');
+var SelectedValue = document.getElementById('SelectedTextValue');
+var SizeSlider = document.getElementById('SizeSlider');
 
-let BlockSizeBox = document.getElementById('BlockSizeBox');
+var BlockSizeBox = document.getElementById('BlockSizeBox');
 
 
 var FileInput;
