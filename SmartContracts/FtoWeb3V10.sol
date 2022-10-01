@@ -129,7 +129,7 @@ contract FtoWeb3
 
         for (uint i=0;base64Data.length>i;i++)
         {
-            fullBase64 = string(abi.encodePacked(base64Data[i],fullBase64));
+            fullBase64 = string(abi.encodePacked(base64Data[(base64Data.length-1)-i],fullBase64));
         }
 
         return fullBase64;
