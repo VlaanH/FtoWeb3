@@ -104,6 +104,30 @@ async function GetFileObject(file)
     return FileObject;
 }
 
+function getBase64FileSize(fileBase64)
+{
+    return new Blob([fileBase64]).size;
+}
+
+function fileSizeNormalization(byte)
+{
+    var num = 1024.00; //1-KByte
+
+    if (byte < num)
+        return byte + "B";
+
+    if (byte < Math.pow(num, 2))
+        return (byte / num).toFixed(2) + "K";
+
+    if (byte < Math.pow(num, 3))
+        return (byte / Math.pow(num, 2)).toFixed(2) + "M";
+
+    if (byte < Math.pow(num, 4))
+        return (byte / Math.pow(num, 3)).toFixed(2) + "G";
+
+    return (byte / Math.pow(num, 4)).toFixed(2) + "T";
+}
+
 
 async function FileUpload(file)
 {
@@ -113,7 +137,7 @@ async function FileUpload(file)
     
     if (FileObject.IsFileExist)
     {
-        var fileWeb3Size = parseInt(await Web3GetFileSize(FileObject.FileId));
+        var fileWeb3Size = parseInt(await Web3GetPartsLoaded(FileObject.FileId));
                 
         await Web3FileUpload(FileObject.FileId,FileObject.SplitFile[fileWeb3Size],fileWeb3Size+1);
     }
@@ -142,7 +166,7 @@ async function FileStatusSet(file)
             
     if (FileObject.IsFileExist)
     {
-        var fileWeb3Size = await Web3GetFileSize(FileObject.FileId);
+        var fileWeb3Size = await Web3GetPartsLoaded(FileObject.FileId);
                 
         if (fileWeb3Size===splitFileSize.toString())
         {

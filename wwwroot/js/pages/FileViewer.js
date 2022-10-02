@@ -25,7 +25,7 @@ async function SetFileToView(fileId)
     
     ResultDiv.append(getHTMLElementByExtension(fileBase64,extension));
     
-    SizeFile.innerText = getFileSize(fileBase64);
+    SizeFile.innerText = await Web3GetFileSize(fileId,fileBase64);
     
     Extension.innerText = extension.toUpperCase();
     
@@ -79,30 +79,6 @@ function getHTMLElementByExtension(fileBase64,extension)
 
     }
     
-    
-}
-
-
-function getFileSize(fileBase64) 
-{
-    var byte = new Blob([fileBase64]).size;
-
-    var num = 1024.00; //1-KByte
-
-    if (byte < num)
-        return byte + "B";
-    
-    if (byte < Math.pow(num, 2))
-        return (byte / num).toFixed(2) + "K"; 
-    
-    if (byte < Math.pow(num, 3))
-        return (byte / Math.pow(num, 2)).toFixed(2) + "M"; 
-    
-    if (byte < Math.pow(num, 4))
-        return (byte / Math.pow(num, 3)).toFixed(2) + "G";
-    
-    return (byte / Math.pow(num, 4)).toFixed(2) + "T"; 
-
     
 }
 

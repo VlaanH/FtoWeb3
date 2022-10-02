@@ -96,6 +96,26 @@ function dependencyOnCheckboxHiddenOnly(chbox,itemId)
 
 }
 
+function hidden(id,isHidden)
+{
+    try
+    {
+        if (isHidden)
+        {
+            document.getElementById(id).classList.add("hidden");
+        }
+        else
+        {
+            document.getElementById(id).classList.remove("hidden");
+        }
+    }
+    catch (e)
+    {
+
+    }
+
+}
+
 function SetBackground(image)
 {
     if (image==="default")

@@ -33,26 +33,6 @@ window.onload = async () => {
  
 };
 
-function hidden(id,isHidden)
-{
-    try 
-    {
-        if (isHidden)
-        {
-            document.getElementById(id).classList.add("hidden");
-        }
-        else
-        {
-            document.getElementById(id).classList.remove("hidden");
-        } 
-    }
-    catch (e) 
-    {
-        
-    }
-    
-    
-}
 
 async function SetNetName() 
 {
@@ -247,7 +227,7 @@ async function Web3GetFile(id)
     return symbol;
 
 }
-async function Web3GetFileSize(id)
+async function Web3GetPartsLoaded(id)
 {
     var symbol;
     
@@ -328,4 +308,30 @@ async function Web3GetFileName(id)
 
 
     return symbol;
+}
+
+async function Web3GetFileSize(id,base64=null)
+{
+    var symbol;
+
+    switch (SmartContractVersion)
+    {
+        
+        case 9:
+        {
+            symbol = getBase64FileSize(base64);
+            break;
+        }
+        default:
+        {
+            symbol = await contract.methods.getFileSize(id).call();
+        }
+    }
+    
+    let size = fileSizeNormalization(symbol);
+    
+    console.log(size);
+
+
+    return size;
 }
