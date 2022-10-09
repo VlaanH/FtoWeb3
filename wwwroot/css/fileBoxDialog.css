@@ -1,0 +1,37 @@
+.dialog 
+{
+    overflow: hidden;
+    width: 95%;
+    max-width: 600px;
+    padding: 0;
+    border-width: 0;
+    border-radius: 35px;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .3);
+    background-color: #2e3442;
+}
+
+.dialogHeader 
+{
+    padding: 12px 20px;
+    background-color: #9c72ce;
+}
+.dialogContent 
+{
+    overflow-y: scroll;
+    height: 500px;
+    padding: 10px 20px;
+    color: #555;
+}
+.btn-cancel
+{
+    width: 100%;
+    margin: 0;
+}
+#dialogSteps
+{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}

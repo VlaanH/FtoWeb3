@@ -1,5 +1,7 @@
 @model string
 @await Html.PartialAsync("_title","Account settings")
+@await Html.PartialAsync("Pages/FileAdd/Dialog")
+
 <script src="~/js/pages/FileBox.js"></script>
 
 <div class="text-center" id="Frame">
@@ -41,19 +43,19 @@
             <div class="steps">
 
                 <button class="btn-step" id="ButtonStepCreate" onclick="FileCreate(FileInput)">
-                    <div class="step"></div>
+                    <div class="step mainStep"></div>
                     <a id="CrateText"></a>
                     <br/>
                 </button>
 
-                <button class="btn-step" id="ButtonUploadingFile" onclick="FileUpload(FileInput)">
-                    <div class="step"></div>
+                <button class="btn-step" id="ButtonUploadingFile" onclick="FileUploadVersionSwitcher(FileInput)">
+                    <div class="step mainStep"></div>
                     <a id="ProgressText"></a>
                     <br/>
                 </button>
 
                 <button class="btn-step" id="OpenButtonPage" onclick="PageAjaxTransition('FileViewer',this.address,true);">
-                    <div class="step"></div>
+                    <div class="step mainStep"></div>
                     <a id="PenPageText"></a>
                     <br/>
                 </button>

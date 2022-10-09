@@ -128,18 +128,49 @@ function fileSizeNormalization(byte)
     return (byte / Math.pow(num, 4)).toFixed(2) + "T";
 }
 
+function FileUploadVersionSwitcher(file) 
+{
+    switch (SmartContractVersion) 
+    {
+        case 9:
+        {
+            fileUpload(file);
+            
+            break;  
+        }
+        default:
+        {
+            OpenAndLoadDialog(file);
+        }
+    }
+} 
 
-async function FileUpload(file)
+async function fileUpload(file,partId=null)
 {
     FileStatusSet(FileInput);
 
-    var FileObject = await GetFileObject(file);
+    let part;
+
+    let FileObject = await GetFileObject(file);
     
     if (FileObject.IsFileExist)
     {
-        var fileWeb3Size = parseInt(await Web3GetPartsLoaded(FileObject.FileId));
-                
-        await Web3FileUpload(FileObject.FileId,FileObject.SplitFile[fileWeb3Size],fileWeb3Size+1);
+        if (partId==null)
+        {
+            let fileWeb3Size = parseInt(await Web3GetPartsLoaded(FileObject.FileId));
+            part = fileWeb3Size+1;
+            
+            await Web3FileUpload(FileObject.FileId,FileObject.SplitFile[fileWeb3Size],part);
+            
+        }
+        else
+        {
+            part = partId;
+            
+            await Web3FileUpload(FileObject.FileId,FileObject.SplitFile[part-1],part);
+            
+        }
+        
     }
     else 
     {
@@ -183,4 +214,33 @@ async function FileStatusSet(file)
         setProgressPoint(1,"0/"+splitFileSize,FileObject.FileId);
     }
             
+}
+async function FilePartsMapGet(file)
+{
+    let FileObject = await GetFileObject(file);
+    
+    let splitFileSize = FileObject.SplitFile.length;
+
+    let partsMap = new Array(splitFileSize).fill(false);
+    
+    if (FileObject.IsFileExist)
+    {
+        for (let i=1;splitFileSize>=i;i++)
+        {
+
+            let part = await Web3GetFilePart(FileObject.FileId,i);
+            
+            if (part!=='')
+                partsMap[i-1]=true;
+            
+            await new Promise(r => setTimeout(r, 100));
+        }
+    
+        return partsMap;
+    }
+    else 
+    {
+        return null;
+    }
+    
 }

@@ -10,7 +10,7 @@
     display: inline-flex;
 }
 
-.fileTextDiv .control
+.control
 {
     margin-inline: 3px;
     cursor: pointer;
@@ -93,6 +93,27 @@
     z-index: 1;
     border: 2px solid #9aa3b7;
     background: #2e3442;
+}
+
+.step.loading
+{
+    animation: stepLoading 3s linear infinite;
+}
+
+@keyframes stepLoading
+{
+    0%
+    {
+        background: #fff;;
+    }
+    50%
+    {
+        background: #2e3442;
+    }
+    100%
+    {
+        background: #fff;;
+    }
 }
 .progress 
 {

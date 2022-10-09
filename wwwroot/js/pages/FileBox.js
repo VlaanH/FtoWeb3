@@ -4,7 +4,7 @@ var DropArea = document.getElementById("drag-area");
 var DragText = document.getElementById("FileLabel");
 var input = document.getElementById("inputFile");
 
-var Steps = document.getElementsByClassName('step');
+var Steps = document.getElementsByClassName('mainStep');
 var ButtonStepCreate = document.getElementById("ButtonStepCreate");
 var ButtonUploadingFile = document.getElementById("ButtonUploadingFile");
 var VersionSelector = document.getElementById("VersionSelector");
@@ -16,6 +16,8 @@ var SelectedValue = document.getElementById('SelectedTextValue');
 var SizeSlider = document.getElementById('SizeSlider');
 
 var BlockSizeBox = document.getElementById('BlockSizeBox');
+
+var DialogSteps = document.getElementById('dialogSteps');
 
 
 var FileInput;
@@ -178,4 +180,80 @@ function setProgressPoint(pointPosition,text,id)
    }
    
     ProgressText.innerHTML=text;
+}
+
+function getDialogStep(partId,completed) 
+{
+    let stepButton = document.createElement("button");
+    
+    let circle = document.createElement("div");
+    
+    stepButton.classList = "btn-step";
+    stepButton.addEventListener("click", async ()=>
+    {   
+        try 
+        {
+            circle.classList.add("loading");
+            await fileUpload(FileInput,partId);
+            
+            circle.classList.add("completed");
+            circle.classList.remove("loading");
+        }
+        catch
+        {
+            circle.classList.remove("loading");
+        }
+        
+    });
+    
+    if (completed) 
+    {
+        circle.classList = "step completed";
+        stepButton.disabled = true;
+    }   
+    else 
+    {
+        circle.classList = "step";
+    }
+    
+    stepButton.append(circle);
+    
+    let text = document.createElement("a");
+    text.innerHTML = partId;
+    stepButton.append(text);
+    
+    
+    
+    return stepButton;
+}
+
+async function OpenAndLoadDialog(file)
+{
+    showDialog("UploadDialog");
+    await setDialogSteps(file);
+}
+
+async function setDialogSteps(file)
+{
+    DialogSteps.innerHTML=null;
+    let partsMap = await FilePartsMapGet(file);
+    
+    for (let i=0;partsMap.length>i;i++)
+    {
+        DialogSteps.append(getDialogStep(i+1,partsMap[i]));
+    }
+    
+}
+
+function cancelDialog(id)
+{
+    var accountDeleteDialog = $('#'+id);
+    accountDeleteDialog[0].close();
+}
+
+
+function showDialog(id)
+{
+    $( `#${id}`)[0].showModal();
+
 }
