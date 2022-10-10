@@ -230,19 +230,7 @@ function getDialogStep(partId,completed)
 async function OpenAndLoadDialog(file)
 {
     showDialog("UploadDialog");
-    await setDialogSteps(file);
-}
-
-async function setDialogSteps(file)
-{
-    DialogSteps.innerHTML=null;
-    let partsMap = await FilePartsMapGet(file);
-    
-    for (let i=0;partsMap.length>i;i++)
-    {
-        DialogSteps.append(getDialogStep(i+1,partsMap[i]));
-    }
-    
+    await FilePartsMapSet(file,DialogSteps);
 }
 
 function cancelDialog(id)

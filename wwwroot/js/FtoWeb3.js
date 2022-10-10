@@ -215,13 +215,13 @@ async function FileStatusSet(file)
     }
             
 }
-async function FilePartsMapGet(file)
+async function FilePartsMapSet(file,dialog)
 {
     let FileObject = await GetFileObject(file);
     
     let splitFileSize = FileObject.SplitFile.length;
 
-    let partsMap = new Array(splitFileSize).fill(false);
+    let isPartVoid;
     
     if (FileObject.IsFileExist)
     {
@@ -231,16 +231,18 @@ async function FilePartsMapGet(file)
             let part = await Web3GetFilePart(FileObject.FileId,i);
             
             if (part!=='')
-                partsMap[i-1]=true;
+                isPartVoid=true;
+            else
+                isPartVoid=false;
+            
+            
+            dialog.append(getDialogStep(i,isPartVoid));
             
             await new Promise(r => setTimeout(r, 100));
         }
     
-        return partsMap;
+
     }
-    else 
-    {
-        return null;
-    }
+   
     
 }
