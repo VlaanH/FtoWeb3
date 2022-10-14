@@ -215,7 +215,7 @@ async function FileStatusSet(file)
     }
             
 }
-async function FilePartsMapSet(file,dialog)
+async function FilePartsMapSet(file,dialogSteps,dialogId)
 {
     let FileObject = await GetFileObject(file);
     
@@ -235,10 +235,21 @@ async function FilePartsMapSet(file,dialog)
             else
                 isPartVoid=false;
             
+            if (i===1)
+                clearingDialog(dialogSteps);
             
-            dialog.append(getDialogStep(i,isPartVoid));
             
-            await new Promise(r => setTimeout(r, 100));
+            if (isOpenDialog(dialogId))
+            {
+                dialogSteps.append(getDialogStep(i,isPartVoid));
+                
+                await new Promise(r => setTimeout(r, 100));
+            }
+            else 
+            {
+                break;
+            }
+            
         }
     
 

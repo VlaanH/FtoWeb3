@@ -229,19 +229,60 @@ function getDialogStep(partId,completed)
 
 async function OpenAndLoadDialog(file)
 {
-    showDialog("UploadDialog");
-    await FilePartsMapSet(file,DialogSteps);
+    let dialogId="UploadDialog"; 
+    clearingDialog(DialogSteps);
+    setAnimation(DialogSteps);
+    
+    showDialog(dialogId);
+    
+    await FilePartsMapSet(file,DialogSteps,dialogId);
+}
+
+
+
+function clearingDialog(dialogContent)
+{
+    dialogContent.innerText=null;
+}
+
+function setAnimation(dialogContent)
+{
+    let spainDiv = document.createElement("div");
+    spainDiv.classList = "spin-wrapper";
+    
+    let spinnerDiv = document.createElement("div");
+    spinnerDiv.classList = "spinner";
+    
+    spainDiv.append(spinnerDiv);
+
+    dialogContent.append(spainDiv);
+}
+
+function isOpenDialog(id) 
+{
+    let dialog = document.getElementById(id);
+    
+    if (dialog.classList.contains("open"))
+        return true;
+    else
+        return false;
+    
 }
 
 function cancelDialog(id)
 {
-    var accountDeleteDialog = $('#'+id);
-    accountDeleteDialog[0].close();
+    let dialog = document.getElementById(id);
+    dialog.classList.remove("open");
+
+    dialog.close();
 }
 
 
 function showDialog(id)
 {
-    $( `#${id}`)[0].showModal();
+    let dialog = document.getElementById(id);
+    dialog.classList.add("open");
+    
+    dialog.showModal();
 
 }
