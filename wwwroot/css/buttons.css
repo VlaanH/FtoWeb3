@@ -37,3 +37,20 @@
     height: 22px;
     margin-top: -1px;
 }
+.btn-cancel
+{
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+}
+
+.btn-cancel:focus
+{
+    outline: none;
+}
+
+.btn-cancel:hover
+{
+    color: #212529;
+    text-decoration: none;
+}
