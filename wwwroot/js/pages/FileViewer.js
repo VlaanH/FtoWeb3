@@ -32,7 +32,7 @@ async function SetFileToView(fileId)
 
     DownloadButton.addEventListener("click", ()=>
     {
-        downloadBase64(fileBase64,"test",extension);
+        downloadBase64(fileBase64,fileName);
     });
 }
 
