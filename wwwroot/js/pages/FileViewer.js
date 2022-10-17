@@ -22,10 +22,11 @@ async function SetFileToView(fileId)
     var fileBase64 = await Web3GetFile(fileId);
 
     var extension = GetExtension(fileBase64);
-    
-    ResultDiv.append(getHTMLElementByExtension(fileBase64,extension));
-    
+
     SizeFile.innerText = await Web3GetFileSize(fileId,fileBase64);
+
+    ResultDiv.innerHTML = null;
+    ResultDiv.append(getHTMLElementByExtension(fileBase64,extension));
     
     Extension.innerText = extension.toUpperCase();
     
