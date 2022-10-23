@@ -193,7 +193,9 @@ function getDialogStep(partId,completed)
     {   
         try 
         {
+            stepButton.disabled = true;
             circle.classList.add("loading");
+            
             await fileUpload(FileInput,partId);
             
             circle.classList.add("completed");
@@ -202,6 +204,7 @@ function getDialogStep(partId,completed)
         catch
         {
             circle.classList.remove("loading");
+            stepButton.disabled = false;
         }
         
     });
