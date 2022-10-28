@@ -1,10 +1,10 @@
-function downloadBase64(data,fileName,extension)
+function downloadBase64(data,fileName)
 {
     const linkSource = data;
     const downloadLink = document.createElement("a");
 
     downloadLink.href = linkSource;
-    downloadLink.download = fileName+"."+extension;
+    downloadLink.download = fileName;
     downloadLink.click();
 }
 
@@ -130,6 +130,8 @@ function fileSizeNormalization(byte)
 
 function FileUploadVersionSwitcher(file) 
 {
+    FileStatusSet(file);
+    
     switch (SmartContractVersion) 
     {
         case 9:
@@ -147,8 +149,6 @@ function FileUploadVersionSwitcher(file)
 
 async function fileUpload(file,partId=null)
 {
-    FileStatusSet(FileInput);
-
     let part;
 
     let FileObject = await GetFileObject(file);
