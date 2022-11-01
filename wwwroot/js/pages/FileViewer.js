@@ -12,16 +12,16 @@ var DownloadButton = document.getElementById("DownloadButton");
 
 async function SetFileToView(fileId) 
 {
-    var fileName = await Web3GetFileName(fileId);
+    let fileName = await Web3GetFileName(fileId);
     
     FileName.innerText=normalizeName(fileName,8);
     
     FileName.title=fileName;
 
-    
-    var fileBase64 = await Web3GetFile(fileId);
 
-    var extension = GetExtension(fileBase64);
+    let fileBase64 = await Web3GetFile(fileId);
+
+    let extension = GetExtension(fileBase64);
 
     SizeFile.innerText = await Web3GetFileSize(fileId,fileBase64);
 
@@ -46,7 +46,7 @@ function getHTMLElementByExtension(fileBase64,extension)
         case "GIF":
         case "JPEG":
         {
-            var img=document.createElement("img");
+            let img=document.createElement("img");
             
             img.src=fileBase64;
             img.classList="imageFile rounded-root";
@@ -55,14 +55,14 @@ function getHTMLElementByExtension(fileBase64,extension)
         }
         case "PDF":
         {
-            var style = "width: 100%;height: 100%;";
-            var obj = document.createElement("object");
+            let style = "width: 100%;height: 100%;";
+            let obj = document.createElement("object");
             obj.data=fileBase64;
             obj.type="application/pdf";
             obj.classList="padding-root";
             obj.style=style;
 
-            var iframe = document.createElement("iframe");
+            let iframe = document.createElement("iframe");
             iframe.src=fileBase64;
             iframe.style = style;
             iframe.classList="rounded-root";
@@ -72,15 +72,15 @@ function getHTMLElementByExtension(fileBase64,extension)
         }
         case "MP4":
         {
-            var style = "width: 100%;height: 100%;";
-            var video = document.createElement("video");
+            let style = "width: 100%;height: 100%;";
+            let video = document.createElement("video");
             video.classList="padding-root";
             video.style=style;
             video.controls = true;
 
 
 
-            var source = document.createElement("source");
+            let source = document.createElement("source");
             source.src=fileBase64;
             source.style = style;
             source.classList="rounded-root";
@@ -93,7 +93,7 @@ function getHTMLElementByExtension(fileBase64,extension)
         }
         default:
         {
-            var p = document.createElement("p");
+            let p = document.createElement("p");
             p.innerText="File";
             
             return p;
