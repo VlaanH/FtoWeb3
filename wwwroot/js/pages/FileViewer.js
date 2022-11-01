@@ -70,6 +70,27 @@ function getHTMLElementByExtension(fileBase64,extension)
             obj.append(iframe);
             return obj;
         }
+        case "MP4":
+        {
+            var style = "width: 100%;height: 100%;";
+            var video = document.createElement("video");
+            video.classList="padding-root";
+            video.style=style;
+            video.controls = true;
+
+
+
+            var source = document.createElement("source");
+            source.src=fileBase64;
+            source.style = style;
+            source.classList="rounded-root";
+            source.type="video/mp4";
+            
+            
+            video.append(source);
+            return video;
+            
+        }
         default:
         {
             var p = document.createElement("p");
