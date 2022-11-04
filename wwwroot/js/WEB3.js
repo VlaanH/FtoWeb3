@@ -1,13 +1,13 @@
 window.userAddress = null;
 window.onload = async () => {
     // Init Web3 connected to ETH network
-    if (window.ethereum) 
+    if (window.ethereum)
     {
         window.web3 = new Web3(window.ethereum);
         // Load in Localstore key
         window.userAddress = window.localStorage.getItem("userAddress");
         await ShowWeb3NetAndAccount();
-        
+
         window.ethereum.on('accountsChanged', function ()
         {
             loginWithEth(true);
@@ -16,39 +16,39 @@ window.onload = async () => {
         {
             ShowWeb3NetAndAccount();
         });
-        
+
         if (SmartContractVersion==null)
         {
             SmartContractVersion=parseInt(LatestSmartContractVersion);
-            InitContract();   
+            InitContract();
         }
-       
+
     }
 
-    if (typeof (initPage) === "function") 
+    if (typeof (initPage) === "function")
     {
         initPage();
     }
-  
- 
+
+
 };
 
 
-async function SetNetName() 
+async function SetNetName()
 {
     var id = await web3.eth.net.getId();
     if (id===80001)
     {
         document.getElementById("web3NetName").innerText="Polygon mumbai";
         document.getElementById("web3NetImg").src="/img/polygon-.svg";
-        
+
     }
     else if(id===137)
     {
         document.getElementById("web3NetName").innerText="Polygon mainnet"
         document.getElementById("web3NetImg").src="/img/polygon-.svg";
     }
-    else 
+    else
     {
         document.getElementById("web3NetName").innerText="Not Polygon net"
         document.getElementById("web3NetImg").src="/img/X.png";
@@ -56,72 +56,72 @@ async function SetNetName()
 }
 
 
-async function ShowWeb3NetAndAccount() 
+async function ShowWeb3NetAndAccount()
 {
-    if (!window.userAddress) 
+    if (!window.userAddress)
     {
         hidden("web3Net",true);
         hidden("logoutButton",true);
-       
+
         hidden("btnLoginWithEth",false);
-        
+
         return false;
     }
-    
+
     // document.getElementById("userAddress").innerText = `ETH Address: ${truncateAddress(window.userAddress)}`;
     hidden("web3Net",false);
     hidden("logoutButton",false);
-    
+
     hidden("btnLoginWithEth",true);
-   
+
     await SetNetName(await web3.eth.net.getId());
 
 }
 
 
-async function logout() 
+async function logout()
 {
     window.userAddress = null;
     window.localStorage.removeItem("userAddress");
-    
+
     await ShowWeb3NetAndAccount();
     RefreshAjaxPage();
 }
 
 
-async function loginWithEth() 
+async function loginWithEth()
 {
     if (window.web3)
     {
-        try 
+        try
         {
-           
+
             const selectedAccount = await window.ethereum
                 .request
                 ({
                     method: "eth_requestAccounts",
                 })
                 .then((accounts) => accounts[0])
-                .catch(() => 
+                .catch(() =>
                 {
                     throw Error("No account selected!");
                 });
             window.userAddress = selectedAccount;
             window.localStorage.setItem("userAddress", selectedAccount);
             await ShowWeb3NetAndAccount();
-            
-        } 
-        catch (error) 
+
+        }
+        catch (error)
         {
             console.error(error);
-        } 
-        
+        }
+
         RefreshAjaxPage();
-       
-    } 
-    else 
+
+    }
+    else
     {
-       alert("MetaMask not installed.");
+        alert("MetaMask not installed.");
     }
 }
 
@@ -144,7 +144,7 @@ function InitContract()
 {
     switch (SmartContractVersion)
     {
-        case 9: 
+        case 9:
         {
             var versionObj = FtoWeb3V9Get();
             window.ABI = versionObj.ABI;
@@ -159,7 +159,7 @@ function InitContract()
             break;
         }
     }
-    
+
     contract = new window.web3.eth.Contract(window.ABI, CONTRACT_ADDRESS);
 }
 
@@ -171,7 +171,7 @@ async function Web3CrateFile(id,fileName,parts)
     let blockSize = SizeSlider.value;
     switch (SmartContractVersion)
     {
-        
+
         case 9:
         {
             symbol = await contract.methods.CreateFile(id,fileName,blockSize).send({ from: window.userAddress});
@@ -184,7 +184,7 @@ async function Web3CrateFile(id,fileName,parts)
         }
 
     }
-    
+
     console.log(symbol);
     await FileStatusSet(FileInput);
 
@@ -209,17 +209,49 @@ async function Web3FileUpload(id,base64Data,partId)
 }
 async function Web3GetFile(id)
 {
-    var symbol;
-    
+    let symbol='';
+
     switch (SmartContractVersion)
     {
-        default:
+
         case 9:
         {
             symbol = await contract.methods.getFile(id).call();
             break;
         }
-        
+        default:
+        {
+            let PartsLoaded = await Web3GetPartsLoaded(id);
+
+            let IsWholeFile = true;
+
+            let FileArray = Array(parseInt(PartsLoaded)).fill('');
+
+            for (let i=0;i<PartsLoaded;i++)
+            {
+                new Promise(async r =>
+                {
+                    let filePiece = await Web3GetFilePart(id, i+1);
+
+                    if (filePiece==='')
+                    {
+                        IsWholeFile = false;
+
+                        throw IsWholeFile;
+                    }
+
+                    FileArray[i] = filePiece;
+                });
+                console.log(PartsLoaded-i);
+            }
+
+            while (IsAllArrayFull(FileArray,'')===false)
+            {
+                await new Promise(r => setTimeout(r, 100));
+            }
+
+            symbol = FileArray.join('')
+        }
     }
 
     console.log(symbol);
@@ -229,21 +261,36 @@ async function Web3GetFile(id)
 }
 async function Web3GetPartsLoaded(id)
 {
-    var symbol;
-    
-    switch (SmartContractVersion)
+    let symbol;
+    let error;
+    do
     {
-        case 9:
+        error = false
+        switch (SmartContractVersion)
         {
-            symbol = await contract.methods.getFileSize(id).call();
-            break;
+            
+            case 9:
+            {
+                symbol = await contract.methods.getFileSize(id).call().catch((e) => 
+                {
+                    error = true;
+                    console.log(e)
+                });
+                break;
+            }
+            default:
+            {
+                symbol = await contract.methods.getPartsLoaded(id).call().catch((e) =>
+                {
+                    error = true;
+                    console.log(e)
+                });
+            }
         }
-        default:
-        {
-            symbol = await contract.methods.getPartsLoaded(id).call();
-        }
-    }
-
+    
+    } 
+    while (error===true)
+    
     console.log(symbol);
 
     return symbol;
@@ -261,9 +308,9 @@ async function Web3FileExist(id)
             symbol = await contract.methods.FileExist(id).call();
             break;
         }
-        
+
     }
-    
+
     console.log(symbol);
 
 
@@ -273,7 +320,7 @@ async function Web3FileExist(id)
 
 async function Web3GetBlockSize(id)
 {
-    var symbol; 
+    var symbol;
 
     switch (SmartContractVersion)
     {
@@ -284,7 +331,7 @@ async function Web3GetBlockSize(id)
             break;
         }
     }
-    
+
     console.log(symbol);
 
 
@@ -302,7 +349,7 @@ async function Web3GetFileName(id)
             symbol = await contract.methods.getFileName(id).call();
             break;
         }
-       
+
     }
     console.log(symbol);
 
@@ -316,7 +363,7 @@ async function Web3GetFileSize(id,base64=null)
 
     switch (SmartContractVersion)
     {
-        
+
         case 9:
         {
             symbol = getBase64FileSize(base64);
@@ -327,16 +374,16 @@ async function Web3GetFileSize(id,base64=null)
             symbol = await contract.methods.getFileSize(id).call();
         }
     }
-    
+
     let size = fileSizeNormalization(symbol);
-    
+
     console.log(size);
 
 
     return size;
 }
 
-async function Web3GetFilePart(id,partId) 
+async function Web3GetFilePart(id,partId)
 {
     var symbol;
 
@@ -350,6 +397,6 @@ async function Web3GetFilePart(id,partId)
 
     console.log(symbol);
 
-    
+
     return symbol;
 }
