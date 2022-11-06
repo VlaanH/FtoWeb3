@@ -116,6 +116,18 @@ function hidden(id,isHidden)
 
 }
 
+function IsAllArrayFull(array,voidSymbol) 
+{
+    let emptiness = true;
+    for (let i=0;i<array.length-1;i++)
+    {
+        if (array[i]===voidSymbol)
+            emptiness = false;
+    }
+    return emptiness;
+}
+
+
 function SetBackground(image)
 {
     if (image==="default")

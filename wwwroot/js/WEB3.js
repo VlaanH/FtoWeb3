@@ -385,15 +385,27 @@ async function Web3GetFileSize(id,base64=null)
 
 async function Web3GetFilePart(id,partId)
 {
-    var symbol;
-
-    switch (SmartContractVersion)
+    let symbol;
+    let error;
+    do 
     {
-        case 10:
+        error = false;
+        
+        switch (SmartContractVersion)
         {
-            symbol = await contract.methods.getFilePart(id,partId).call();
+            case 10:
+            {
+                symbol = await contract.methods.getFilePart(id,partId).call().catch((e) =>
+                {
+                    error = true;
+                    console.log(e)
+                });
+            }
         }
-    }
+        
+    } 
+    while (error===true)
+    
 
     console.log(symbol);
 
