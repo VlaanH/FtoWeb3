@@ -191,20 +191,43 @@ async function Web3CrateFile(id,fileName,parts)
 }
 async function Web3FileUpload(id,base64Data,partId)
 {
-
-    var symbol;
+    let error=false;
     switch (SmartContractVersion)
     {
         default:
         case 9:
         {
-            symbol = await contract.methods.AddFile(id,base64Data,partId).send({ from: window.userAddress});
-            break;
+             new Promise(async r => 
+            {
+                await contract.methods.AddFile(id, base64Data, partId).send({ from: window.userAddress})
+                    .catch((e) => {
+                        //The absence of a code and original Error means that the limit of 50 blocks has been exceeded while waiting for a transaction
+                        console.log(e)
+                        if (e.code !== undefined || e.originalError == null) 
+                        {
+                            if(e.toString().includes('not mined within 50 blocks')===false)
+                                error = true;
+                            
+                            
+                        }
+                    });
+            });
         }
-       
     }
-
-    console.log(symbol);
+    do
+    {
+        if (error)
+        {
+            throw null;
+        }
+        else
+        {
+            await new Promise(r => setTimeout(r, 10000));
+        }
+    }
+    while (await Web3GetFilePart(id,partId)==='')
+    
+    
     await FileStatusSet(FileInput);
 }
 async function Web3GetFile(id)
