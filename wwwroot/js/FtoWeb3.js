@@ -64,6 +64,50 @@ function SplitFile(base64,blockSize4)
    
 }
 
+async function getMpegCover(base64) 
+{
+    let jsMediaTags = window.jsmediatags;
+    let blob = await base64toBlob(base64);
+
+    return new Promise(function(resolve, reject)
+    {
+        jsMediaTags.read(blob, 
+        {
+            onSuccess:function(tag)
+            {
+                var tags = tag.tags;
+    
+                var image = tags.picture;
+                if (image)
+                {
+                    var base64String = "";
+                    for (var i = 0; i < image.data.length; i++) 
+                    {
+                        base64String += String.fromCharCode(image.data[i]);
+                    }
+
+                    resolve("data:image/png;base64," + window.btoa(base64String));
+                }
+                else 
+                {
+                    resolve(null);
+                }
+    
+            },
+            onError: function(error) 
+            {
+                reject(null);
+            }
+        });
+    });
+
+}
+
+async function base64toBlob(base64)
+{
+    return await fetch(base64).then(res => res.blob());
+}
+   
 
 function GetExtension(base64)
 {
