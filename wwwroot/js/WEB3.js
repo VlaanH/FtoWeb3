@@ -1,132 +1,3 @@
-window.userAddress = null;
-window.onload = async () => {
-    // Init Web3 connected to ETH network
-    if (window.ethereum)
-    {
-        window.web3 = new Web3(window.ethereum);
-        // Load in Localstore key
-        window.userAddress = window.localStorage.getItem("userAddress");
-        await ShowWeb3NetAndAccount();
-
-        window.ethereum.on('accountsChanged', function ()
-        {
-            loginWithEth(true);
-        });
-        window.ethereum.on('chainChanged', function()
-        {
-            ShowWeb3NetAndAccount();
-        });
-
-        if (SmartContractVersion==null)
-        {
-            SmartContractVersion=parseInt(LatestSmartContractVersion);
-            InitContract();
-        }
-
-    }
-
-    if (typeof (initPage) === "function")
-    {
-        initPage();
-    }
-
-
-};
-
-
-async function SetNetName()
-{
-    var id = await web3.eth.net.getId();
-    if (id===80001)
-    {
-        document.getElementById("web3NetName").innerText="Polygon mumbai";
-        document.getElementById("web3NetImg").src="/img/polygon-.svg";
-
-    }
-    else if(id===137)
-    {
-        document.getElementById("web3NetName").innerText="Polygon mainnet"
-        document.getElementById("web3NetImg").src="/img/polygon-.svg";
-    }
-    else
-    {
-        document.getElementById("web3NetName").innerText="Not Polygon net"
-        document.getElementById("web3NetImg").src="/img/X.png";
-    }
-}
-
-
-async function ShowWeb3NetAndAccount()
-{
-    if (!window.userAddress)
-    {
-        hidden("web3Net",true);
-        hidden("logoutButton",true);
-
-        hidden("btnLoginWithEth",false);
-
-        return false;
-    }
-
-    // document.getElementById("userAddress").innerText = `ETH Address: ${truncateAddress(window.userAddress)}`;
-    hidden("web3Net",false);
-    hidden("logoutButton",false);
-
-    hidden("btnLoginWithEth",true);
-
-    await SetNetName(await web3.eth.net.getId());
-
-}
-
-
-async function logout()
-{
-    window.userAddress = null;
-    window.localStorage.removeItem("userAddress");
-
-    await ShowWeb3NetAndAccount();
-    RefreshAjaxPage();
-}
-
-
-async function loginWithEth()
-{
-    if (window.web3)
-    {
-        try
-        {
-
-            const selectedAccount = await window.ethereum
-                .request
-                ({
-                    method: "eth_requestAccounts",
-                })
-                .then((accounts) => accounts[0])
-                .catch(() =>
-                {
-                    throw Error("No account selected!");
-                });
-            window.userAddress = selectedAccount;
-            window.localStorage.setItem("userAddress", selectedAccount);
-            await ShowWeb3NetAndAccount();
-
-        }
-        catch (error)
-        {
-            console.error(error);
-        }
-
-        RefreshAjaxPage();
-
-    }
-    else
-    {
-        alert("MetaMask not installed.");
-    }
-}
-
-
-
 
 function VersionSmartContractObj()
 {
@@ -408,7 +279,7 @@ async function Web3GetFileSize(id,base64=null)
 
 async function Web3GetFilePart(id,partId)
 {
-    let symbol;
+    let symbol='';
     let error;
     do 
     {
@@ -427,7 +298,7 @@ async function Web3GetFilePart(id,partId)
         }
         
     } 
-    while (error===true)
+    while (error===true || symbol===undefined)
     
 
     console.log(symbol);
