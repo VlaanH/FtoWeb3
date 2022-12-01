@@ -39,13 +39,17 @@ window.onload = async () => {
     });
 
     // Init Web3 connected to ETH network
-    await LoginWithEth();
-    if (window.web3!==undefined)
+    try 
     {
-        if (SmartContractVersion==null)
-            SmartContractVersion=parseInt(LatestSmartContractVersion);
-
+        await LoginWithEth();    
     }
+    catch (e) {}
+    
+
+    if (SmartContractVersion==null)
+        SmartContractVersion=parseInt(LatestSmartContractVersion);
+
+    
 
     if (typeof (initPage) === "function")
     {
@@ -54,7 +58,17 @@ window.onload = async () => {
 
 
 };
-
+function IsAuthorized()
+{
+    if (Accounts!==null && Accounts!== undefined)
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
 
 async function SetNetName()
 {
@@ -104,6 +118,7 @@ async function Logout()
 {
     await web3Modal.clearCachedProvider();
     provider = null;
+    Accounts=null;
     window.userAddress=null;
     window.localStorage.removeItem("userAddress");
 
@@ -157,7 +172,7 @@ async function LoginWithEth()
     }
 
     InitContract();
-    if (previousAccount!==null && previousAccount!==window.userAddress)
+    if (previousAccount!==window.userAddress)
     {
         RefreshAjaxPage();
     }
