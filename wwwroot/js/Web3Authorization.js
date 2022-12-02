@@ -13,6 +13,7 @@ let Accounts;
 window.userAddress = null;
 window.onload = async () => {
 
+    let infuraId = 'cfce162043954f298110b0fdf9a8edb6';
 
     const providerOptions = {
         walletconnect: {
@@ -24,7 +25,7 @@ window.onload = async () => {
                             80001: "https://matic-mumbai.chainstacklabs.com",
                             137: 'https://matic-mainnet.chainstacklabs.com'
                         },
-                    infuraId: 'cfce162043954f298110b0fdf9a8edb6',
+                    infuraId: infuraId,
                 },
             display:
                 {
@@ -38,6 +39,8 @@ window.onload = async () => {
         providerOptions
     });
 
+    window.web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/" + infuraId));
+    
     // Init Web3 connected to ETH network
     try 
     {
