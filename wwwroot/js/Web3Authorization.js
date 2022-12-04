@@ -1,5 +1,6 @@
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
+const InfuraId = 'cfce162043954f298110b0fdf9a8edb6';
 
 let web3Modal
 
@@ -12,9 +13,7 @@ let Accounts;
 
 window.userAddress = null;
 window.onload = async () => {
-
-    let infuraId = 'cfce162043954f298110b0fdf9a8edb6';
-
+    
     const providerOptions = {
         walletconnect: {
             package: WalletConnectProvider,
@@ -25,7 +24,7 @@ window.onload = async () => {
                             80001: "https://matic-mumbai.chainstacklabs.com",
                             137: 'https://matic-mainnet.chainstacklabs.com'
                         },
-                    infuraId: infuraId,
+                    infuraId: InfuraId,
                 },
             display:
                 {
@@ -39,7 +38,7 @@ window.onload = async () => {
         providerOptions
     });
 
-    window.web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/" + infuraId));
+    SetBaseProvider(InfuraId);
     
     // Init Web3 connected to ETH network
     try 
@@ -61,6 +60,12 @@ window.onload = async () => {
 
 
 };
+
+function SetBaseProvider(infuraId)
+{
+    window.web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/" + infuraId));
+}
+
 function IsAuthorized()
 {
     if (Accounts!==null && Accounts!== undefined)
@@ -132,7 +137,11 @@ async function Logout()
     InitContract();
 
     await ShowWeb3NetAndAccount();
+    
+    SetBaseProvider(InfuraId);
+    
     RefreshAjaxPage();
+    
 }
 
 function initProviderEvents()
