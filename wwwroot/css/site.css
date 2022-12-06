@@ -35,7 +35,10 @@ a.navbar-brand
   text-align: center;
   word-break: break-all;
 }
-
+.Blur
+{
+  filter: blur(10px);
+}
 .hidden
 {
   display: none;

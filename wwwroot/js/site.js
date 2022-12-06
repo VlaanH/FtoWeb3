@@ -115,6 +115,15 @@ function hidden(id,isHidden)
     }
 
 }
+function AddBlur(id)
+{
+    document.getElementById(id).classList.add("Blur");
+}
+
+function RemoveBlur(id)
+{
+    document.getElementById(id).classList.remove("Blur");
+}
 
 function IsAllArrayFull(array,voidSymbol) 
 {

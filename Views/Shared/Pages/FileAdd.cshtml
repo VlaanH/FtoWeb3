@@ -5,19 +5,21 @@
 <script src="~/js/pages/FileBox.js"></script>
 
 <div class="text-center" id="Frame">
-    
+    <div class="hidden" id="blurredLockScreenTitle">
+        <h3>You are not authorized</h3>
+    </div>
     
     <div id="drag-area" class="drag-area">
         <div class="fileTextDiv padding-root rounded-root max-width-root">
             <h3 id="FileLabel">Drag & Drop to Upload File</h3>
             <h3>OR</h3>
             <div class="controls">
-                
+
                 <partial name="FileAdd/VersionSelect.cshtml"/>
-                
-                <button class="btn control" onclick="input.click()" id="buttonFile">Browse File</button>
+
+                <button class="btn control" id="buttonFile">Browse File</button>
             </div>
-            
+
         </div>
         
         

@@ -3,6 +3,9 @@ var StepsPoints = document.getElementById("StepsPoints");
 var DropArea = document.getElementById("drag-area");
 var DragText = document.getElementById("FileLabel");
 var input = document.getElementById("inputFile");
+var ButtonFile = document.getElementById("buttonFile");
+var BlurredLockScreenTitle = document.getElementById("blurredLockScreenTitle");
+
 
 var Steps = document.getElementsByClassName('mainStep');
 var ButtonStepCreate = document.getElementById("ButtonStepCreate");
@@ -19,14 +22,21 @@ var BlockSizeBox = document.getElementById('BlockSizeBox');
 
 var DialogSteps = document.getElementById('dialogSteps');
 
+var IsBlurred;
 
 var FileInput;
 
 var centerValue = SizeSlider.max/1.9;
 
-SetSliderBackgroundRange(centerValue);
-ChangeBlocksSize(centerValue);
-SizeSlider.value=centerValue;
+
+
+(() =>
+{
+    SetBlurStatus();
+    SetSliderBackgroundRange(centerValue);
+    ChangeBlocksSize(centerValue);
+    SizeSlider.value=centerValue;
+})();
 
 SizeSlider.addEventListener("input", (e)=>
 {
@@ -65,13 +75,18 @@ input.addEventListener("change", function(){
 
 
 
-DropArea.addEventListener("dragover", (event)=>{
-    event.preventDefault(); 
+DropArea.addEventListener("dragover", (event)=> {
+    
+    if (IsBlurred===false)
+    {
+        event.preventDefault();
 
-    DragText.textContent = "Release to Upload File";
-    DropArea.classList.add("active");
+        DragText.textContent = "Release to Upload File";
+        DropArea.classList.add("active");
 
-    StepsPoints.classList.add("hidden");
+        StepsPoints.classList.add("hidden");
+    }
+
     
 });
 
@@ -95,6 +110,41 @@ DropArea.addEventListener("drop", (event)=>{
     FileStatusSet(FileInput);
     
 });
+
+ButtonFile.addEventListener("click", (event)=> {
+    if (IsBlurred===false)
+    {
+        input.click(); 
+    }
+});
+
+function SetBlurStatus()
+{
+    if (IsAuthorized())
+    {
+        IsBlurred = false;
+        HiddenBlurLock();
+    }
+    else
+    {
+        IsBlurred = true;
+        ShowBlurLock();
+    }
+}
+
+function ShowBlurLock()
+{
+    hidden(BlurredLockScreenTitle.id,false);
+    VersionSelector.disabled = true;
+    AddBlur(DropArea.id);
+}
+
+function HiddenBlurLock()
+{
+    hidden(BlurredLockScreenTitle.id,true);
+    VersionSelector.disabled = false;
+    RemoveBlur(DropArea.id);
+}
 
 function SetSmartContractVersion(version)
 {

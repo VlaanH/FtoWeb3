@@ -1,4 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+#blurredLockScreenTitle
+{
+    position: absolute;
+    margin-left: -150px;
+    left: 50%;
+    top: 40%;
+    z-index: 1;
+}
 .fileTextDiv
 {
     margin-block: 18px;
