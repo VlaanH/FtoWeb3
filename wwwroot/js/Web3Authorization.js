@@ -40,6 +40,9 @@ window.onload = async () => {
 
     SetBaseProvider(InfuraId);
     
+   
+    if (SmartContractVersion==null)
+        SmartContractVersion=parseInt(LatestSmartContractVersion);
     // Init Web3 connected to ETH network
     try 
     {
@@ -48,8 +51,7 @@ window.onload = async () => {
     catch (e) {}
     
 
-    if (SmartContractVersion==null)
-        SmartContractVersion=parseInt(LatestSmartContractVersion);
+    
 
     
 
