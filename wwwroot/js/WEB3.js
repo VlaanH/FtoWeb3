@@ -71,3 +71,8 @@ async function Web3GetFilePart(id,partId)
 {
     return contractObj.GetFilePart(id,partId);
 }
+
+async function Web3GetJsonFileMap(id)
+{
+    return contractObj.GetJsonFileMap(id);
+}

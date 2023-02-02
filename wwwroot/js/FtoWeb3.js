@@ -251,7 +251,6 @@ async function FileStatusSet(file)
         {
             setProgressPoint(2,fileWeb3Size+"/"+splitFileSize,FileObject.FileId);
         }
-                
     }
     else 
     {
@@ -264,20 +263,37 @@ async function FilePartsMapSet(file,dialogSteps,dialogId)
     let FileObject = await GetFileObject(file);
     
     let splitFileSize = FileObject.SplitFile.length;
-
+    
+    let parts = null;
+    
     let isPartVoid;
     
     if (FileObject.IsFileExist)
     {
+        if (SmartContractVersion>10)
+        {
+            parts = await Web3GetJsonFileMap(FileObject.FileId);
+        }
+        
         for (let i=1;splitFileSize>=i;i++)
         {
+            let part;
+            if (parts!=null)
+            {
+                isPartVoid = eval(parts.PartsMap[i]);
+            }
+            else 
+            {
+                part = await Web3GetFilePart(FileObject.FileId,i);
 
-            let part = await Web3GetFilePart(FileObject.FileId,i);
+                if (part!=='')
+                    isPartVoid=true;
+                else
+                    isPartVoid=false;
+            }
             
-            if (part!=='')
-                isPartVoid=true;
-            else
-                isPartVoid=false;
+            
+           
             
             if (i===1)
                 clearingDialog(dialogSteps);
@@ -293,11 +309,6 @@ async function FilePartsMapSet(file,dialogSteps,dialogId)
             {
                 break;
             }
-            
         }
-    
-
     }
-   
-    
 }
