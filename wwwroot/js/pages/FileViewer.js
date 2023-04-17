@@ -46,6 +46,7 @@ async function getHTMLElementByExtension(fileBase64,extension)
         case "PNG":
         case "GIF":
         case "JPEG":
+        case "webp":
         {
             let img=document.createElement("img");
             
