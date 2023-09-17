@@ -7,3 +7,6 @@ Decentralized file storage
 
 # File
 ![image](https://github.com/VlaanH/FtoWeb3/assets/70905839/b0498d60-2f25-4a7d-a87a-ffbb24eb6423)
+
+# Pdf
+![image](https://github.com/VlaanH/FtoWeb3/assets/70905839/e5c4318d-3580-44c1-bea4-7fbc06af9126)
